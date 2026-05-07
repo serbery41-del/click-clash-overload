@@ -157,37 +157,20 @@ export function CursorIcon({ skinId, size = 32, className = '' }: { skinId: Skin
 
   switch (skinId) {
     case 'classic':
-      return (
-        <svg width={size} height={size} viewBox="0 0 24 24" className={className}>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
-        </svg>
-      );
     case 'mint':
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" className={className}>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
-          <circle cx="7" cy="8" r="2" fill={skin.colors.secondary} opacity="0.5"/>
+          <path d={fingerPath} fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
         </svg>
       );
     case 'retro':
       return (
-        <svg width={size} height={size} viewBox="0 0 16 16" className={className} style={{ imageRendering: 'pixelated' }}>
-          <rect x="1" y="1" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="3" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="5" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="3" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="5" width="2" height="2" fill={skin.colors.secondary}/>
-          <rect x="3" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="5" y="5" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="5" y="7" width="2" height="2" fill={skin.colors.secondary}/>
-          <rect x="5" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="7" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="7" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="9" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="11" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="9" width="2" height="2" fill={skin.colors.primary}/>
+        <svg width={size} height={size} viewBox="0 0 16 16" className={className} style={{ imageRendering: 'pixelated' }} shapeRendering="crispEdges">
+          {[[7,1],[7,3],[7,5],[5,7],[7,7],[9,7],[5,9],[7,9],[9,9]].map(([x,y],i) => (
+            <rect key={i} x={x} y={y} width="2" height="2" fill={skin.colors.primary}/>
+          ))}
+          <rect x="5" y="11" width="6" height="2" fill={skin.colors.secondary}/>
+          <rect x="5" y="13" width="6" height="2" fill={skin.colors.secondary}/>
         </svg>
       );
     case 'neon':
@@ -202,8 +185,8 @@ export function CursorIcon({ skinId, size = 32, className = '' }: { skinId: Skin
               </feMerge>
             </filter>
           </defs>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="transparent" stroke={skin.colors.primary} strokeWidth="2" strokeLinejoin="round" filter="url(#neonGlow)"/>
-          <path d="M6 6L6 14L9 11L11 15" fill="none" stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d={fingerPath} fill="none" stroke={skin.colors.primary} strokeWidth="2" strokeLinejoin="round" filter="url(#neonGlow)"/>
+          <path d={fingerPath} fill="none" stroke={skin.colors.secondary} strokeWidth="1"/>
         </svg>
       );
     default:
