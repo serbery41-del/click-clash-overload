@@ -309,6 +309,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (st.activeChaos && st.chaosEndsAt > now) {
       if (st.activeChaos === 'doubleClick') v *= 2;
       else if (st.activeChaos === 'frenzy') v *= 1.5;
+      else if (st.activeChaos === 'powerSurge') v *= 3;
     }
     const np = [...st.players];
     np[idx] = { ...p, total: p.total + v, totalClicks: p.totalClicks + 1, lastClickTime: now };
