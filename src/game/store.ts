@@ -299,9 +299,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const np = [...st.players];
     np[idx] = { ...p, total: p.total + v, totalClicks: p.totalClicks + 1, lastClickTime: now };
     set({ players: np });
+    if ((p.totalClicks % 3) === 0) playClickSfx();
     if (st.settings.goalType === 'firstToValue' && np[idx].total >= st.settings.targetValue) {
       set({ winnerId: st.myId, phase: 'finished' });
       get().addFeed(np[idx].name + ' reached the goal!', 'system');
+      playWinSfx();
     }
   },
 
