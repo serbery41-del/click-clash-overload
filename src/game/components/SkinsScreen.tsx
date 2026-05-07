@@ -4,21 +4,26 @@ import { SKINS, CursorIcon, applyCursor, resetCursor } from '../skins';
 import type { SkinId } from '../types';
 
 export default function SkinsScreen() {
-  const { setPhase, selectedSkin, setSkin, secretUnlocked, unlockSecret, cursorEnabled, setCursorEnabled } = useGameStore();
+  const { setPhase, selectedSkin, setSkin, unlockedSkins, unlockSecret, cursorEnabled, setCursorEnabled } = useGameStore();
   const [secretCode, setSecretCode] = useState('');
   const [showSecret, setShowSecret] = useState(false);
+  const [unlockMsg, setUnlockMsg] = useState('');
 
   const handleSecretCheck = (code: string) => {
     setSecretCode(code);
-    const c = code.toLowerCase();
-    if (c === 'tux' || c === 'linux' || c === 'penguin') {
-      unlockSecret();
-      setShowSecret(false);
-      setSkin('tux');
-    } else if (c === 'windows' || c === 'win11' || c === 'microsoft') {
-      unlockSecret();
-      setShowSecret(false);
-      setSkin('win11');
+    const c = code.toLowerCase().trim();
+    const map: Record<string, SkinId> = {
+      tux: 'tux', linux: 'tux', penguin: 'tux',
+      windows: 'win11', win11: 'win11', microsoft: 'win11',
+      mac: 'macos', macos: 'macos', apple: 'macos',
+    };
+    const skin = map[c];
+    if (skin) {
+      unlockSecret(skin);
+      setSkin(skin);
+      setUnlockMsg('Unlocked: ' + skin);
+      setSecretCode('');
+      setTimeout(() => { setShowSecret(false); setUnlockMsg(''); }, 1200);
     }
   };
 
@@ -31,7 +36,8 @@ export default function SkinsScreen() {
     }
   }, [cursorEnabled, selectedSkin]);
 
-  const availableSkins = SKINS.filter(s => !s.secret || secretUnlocked);
+  const availableSkins = SKINS.filter(s => !s.secret || unlockedSkins.includes(s.id as SkinId));
+  const allUnlocked = SKINS.filter(s => s.secret).every(s => unlockedSkins.includes(s.id as SkinId));
 
   return (
     <div className="min-h-screen bg-main p-6 page-scroll">
