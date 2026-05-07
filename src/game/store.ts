@@ -18,7 +18,7 @@ function mkPlayer(id: string, name: string, local: boolean, host: boolean, skin:
 function toSync(p: PlayerState) {
   return { id: p.id, name: p.name, skinId: p.skinId, isHost: p.isHost, total: p.total,
     clickPower: p.clickPower, cps: p.cps, investRate: p.investRate, multiplier: p.multiplier,
-    totalClicks: p.totalClicks, sabotagesDealt: p.sabotagesDealt, color: p.color, itemsOwned: p.itemsOwned };
+    totalClicks: p.totalClicks, sabotagesDealt: p.sabotagesDealt, color: p.color, itemsOwned: p.itemsOwned, team: p.team };
 }
 
 // ── Message handler ──
