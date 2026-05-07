@@ -3,6 +3,8 @@ import { useGameStore } from '../store';
 import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, formatNumber, getSabotageCost } from '../gameData';
 import { CursorIcon, CursorMini, applyCursor, resetCursor } from '../skins';
 import type { PlayerState, ShopItem } from '../types';
+import foxyImg from '../assets/foxy-jumpscare.jpg';
+import goldenFreddyImg from '../assets/golden-freddy.jpg';
 
 interface ClickParticle { id: number; x: number; y: number; value: number }
 
