@@ -8,7 +8,7 @@ interface ClickParticle { id: number; x: number; y: number; value: number }
 
 export default function GameScreen() {
   const store = useGameStore();
-  const { players, myId, settings, feed, timeRemaining, winnerId, sabotageCooldowns, deviceMode, selectedSkin, foxyActive, cursorEnabled } = store;
+  const { players, myId, settings, feed, timeRemaining, winnerId, sabotageCooldowns, deviceMode, selectedSkin, foxyActive, cursorEnabled, goldenFreddyActive, activeChaos, chaosEndsAt, cheatLockedUntil } = store;
   const lastTick = useRef(Date.now());
   const [particles, setParticles] = useState<ClickParticle[]>([]);
   const [cpm, setCpm] = useState(0);
