@@ -114,6 +114,45 @@ export default function LobbyScreen() {
           </Section>
         )}
 
+        {/* Teams */}
+        <Section title="Teams" color="cyan">
+          <Toggle label="Enable Teams" desc="Teammates can't sabotage each other" checked={settings.teamsEnabled} onChange={v => updateSettings({ teamsEnabled: v })} color="cyan" />
+          {settings.teamsEnabled && (
+            <div className="mt-3">
+              <div className="text-xs text-white/50 mb-2">Your Team</div>
+              <div className="flex flex-wrap gap-2">
+                {TEAM_OPTS.map(t => (
+                  <button key={t.id} onClick={() => setTeam(t.id)} className={`px-3 py-2 rounded-lg border-2 text-xs font-bold transition ${me?.team === t.id ? 'border-white' : 'border-white/10'}`} style={{ background: me?.team === t.id ? t.color + '40' : 'transparent', color: t.color }}>
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </Section>
+
+        {/* Chaos Events */}
+        <Section title="Chaos Events" color="pink">
+          <Toggle label="Random Events" desc="Triggers a chaos event every interval" checked={settings.chaosEventsEnabled} onChange={v => updateSettings({ chaosEventsEnabled: v })} color="pink" />
+          {settings.chaosEventsEnabled && (
+            <div className="mt-3">
+              <SliderSetting label="Event Interval" value={settings.chaosInterval} min={10} max={120} unit="s" onChange={v => updateSettings({ chaosInterval: v })} />
+              <div className="text-[10px] text-white/40 mt-2">Events: Golden Freddy jumpscare, Double Click, Price Crash, Auto Overdrive, Click Frenzy, Blackout, Tax Storm</div>
+            </div>
+          )}
+        </Section>
+
+        {/* Anti-Cheat */}
+        <Section title="Anti-Cheat" color="cyan">
+          <Toggle label="Enable Anti-Cheat" desc="Lock players exceeding CPS threshold" checked={settings.antiCheatEnabled} onChange={v => updateSettings({ antiCheatEnabled: v })} color="cyan" />
+          {settings.antiCheatEnabled && (
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <SliderSetting label="CPS Threshold" value={settings.antiCheatCpsThreshold} min={20} max={150} unit="" onChange={v => updateSettings({ antiCheatCpsThreshold: v })} />
+              <SliderSetting label="Freeze Duration" value={settings.antiCheatFreezeSeconds} min={5} max={60} unit="s" onChange={v => updateSettings({ antiCheatFreezeSeconds: v })} />
+            </div>
+          )}
+        </Section>
+
         {/* Game Mode */}
         <Section title="Game Mode" color="pink">
           <div className="grid grid-cols-2 gap-3">
