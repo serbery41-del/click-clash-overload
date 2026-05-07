@@ -4,21 +4,26 @@ import { SKINS, CursorIcon, applyCursor, resetCursor } from '../skins';
 import type { SkinId } from '../types';
 
 export default function SkinsScreen() {
-  const { setPhase, selectedSkin, setSkin, secretUnlocked, unlockSecret, cursorEnabled, setCursorEnabled } = useGameStore();
+  const { setPhase, selectedSkin, setSkin, unlockedSkins, unlockSecret, cursorEnabled, setCursorEnabled } = useGameStore();
   const [secretCode, setSecretCode] = useState('');
   const [showSecret, setShowSecret] = useState(false);
+  const [unlockMsg, setUnlockMsg] = useState('');
 
   const handleSecretCheck = (code: string) => {
     setSecretCode(code);
-    const c = code.toLowerCase();
-    if (c === 'tux' || c === 'linux' || c === 'penguin') {
-      unlockSecret();
-      setShowSecret(false);
-      setSkin('tux');
-    } else if (c === 'windows' || c === 'win11' || c === 'microsoft') {
-      unlockSecret();
-      setShowSecret(false);
-      setSkin('win11');
+    const c = code.toLowerCase().trim();
+    const map: Record<string, SkinId> = {
+      tux: 'tux', linux: 'tux', penguin: 'tux',
+      windows: 'win11', win11: 'win11', microsoft: 'win11',
+      mac: 'macos', macos: 'macos', apple: 'macos',
+    };
+    const skin = map[c];
+    if (skin) {
+      unlockSecret(skin);
+      setSkin(skin);
+      setUnlockMsg('Unlocked: ' + skin);
+      setSecretCode('');
+      setTimeout(() => { setShowSecret(false); setUnlockMsg(''); }, 1200);
     }
   };
 
@@ -31,7 +36,8 @@ export default function SkinsScreen() {
     }
   }, [cursorEnabled, selectedSkin]);
 
-  const availableSkins = SKINS.filter(s => !s.secret || secretUnlocked);
+  const availableSkins = SKINS.filter(s => !s.secret || unlockedSkins.includes(s.id as SkinId));
+  const allUnlocked = SKINS.filter(s => s.secret).every(s => unlockedSkins.includes(s.id as SkinId));
 
   return (
     <div className="min-h-screen bg-main p-6 page-scroll">
@@ -104,7 +110,7 @@ export default function SkinsScreen() {
           })}
         </div>
 
-        {!secretUnlocked && (
+        {!allUnlocked && (
           <div className="mt-6">
             {!showSecret ? (
               <button onClick={() => setShowSecret(true)} className="w-full py-3 text-white/20 hover:text-white/40 text-xs transition-colors">
@@ -119,7 +125,9 @@ export default function SkinsScreen() {
                   placeholder="Enter secret code..."
                   className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#a855f7] transition-colors"
                 />
-                <p className="text-white/30 text-xs text-center">Hint: A famous open-source mascot 🐧</p>
+                {unlockMsg
+                  ? <p className="text-green-400 text-xs text-center font-bold">{unlockMsg}</p>
+                  : <p className="text-white/30 text-xs text-center">Hints: 🐧 mascot · 🪟 OS · 🍎 fruit</p>}
               </div>
             )}
           </div>

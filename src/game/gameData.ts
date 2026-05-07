@@ -95,6 +95,7 @@ export const SABOTAGE_ABILITIES: SabotageAbility[] = [
   { id: 'inflationSpike', name: 'Price Surge', description: 'Double their costs', baseCost: 30000, duration: 8, cooldown: 25 },
   { id: 'stunLock', name: 'Input Lock', description: 'Disable their clicking', baseCost: 75000, duration: 3, cooldown: 45 },
   { id: 'foxy', name: 'FOXY JUMPSCARE', description: 'TERRIFYING JUMPSCARE', baseCost: 1500000, duration: 3, cooldown: 120 },
+  { id: 'goldenFreddy', name: 'GOLDEN FREDDY', description: 'Mysterious jumpscare on their screen', baseCost: 5000000, duration: 4, cooldown: 180 },
 ];
 
 export const DIFFICULTY_PRESETS: Record<string, Partial<LobbySettings>> = {

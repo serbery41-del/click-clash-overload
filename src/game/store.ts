@@ -85,6 +85,11 @@ function onMsg(msg: any) {
       if (!sab) return;
       const dur = getSabotageDuration(sab, s.settings);
       if (d.sabId === 'foxy') s.triggerFoxy();
+      if (d.sabId === 'goldenFreddy') {
+        useGameStore.setState({ goldenFreddyActive: true });
+        try { playGoldenFreddySfx(); } catch (_) {}
+        setTimeout(() => useGameStore.setState({ goldenFreddyActive: false }), dur * 1000);
+      }
       if (d.sabId === 'taxman') {
         const me = s.players.find(p => p.id === s.myId);
         if (me) {
@@ -165,7 +170,7 @@ interface GameStore {
   timeRemaining: number; timeElapsed: number; winnerId: string | null;
   playerName: string; selectedSkin: SkinId;
   sabotageCooldowns: Record<string, number>;
-  secretUnlocked: boolean; isHost: boolean; cursorEnabled: boolean; foxyActive: boolean;
+  secretUnlocked: boolean; unlockedSkins: SkinId[]; isHost: boolean; cursorEnabled: boolean; foxyActive: boolean;
   debugMsgCount: number;
   // chaos
   activeChaos: ChaosEventId | null;
@@ -178,7 +183,7 @@ interface GameStore {
   updateSettings: (p: Partial<LobbySettings>) => void;
   setPlayerName: (n: string) => void; setSkin: (s: SkinId) => void;
   setTeam: (t: any) => void;
-  unlockSecret: () => void; setCursorEnabled: (e: boolean) => void;
+  unlockSecret: (skin?: SkinId) => void; setCursorEnabled: (e: boolean) => void;
   createRoom: () => void; joinRoom: (code: string) => void; startGame: () => void;
   handleClick: () => void; buyItem: (id: string) => void;
   useSabotage: (sabId: string, targetId: string) => void;
@@ -207,7 +212,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   players: [], myId: mp.myId(), feed: [],
   timeRemaining: 0, timeElapsed: 0, winnerId: null,
   playerName: '', selectedSkin: 'classic' as SkinId,
-  sabotageCooldowns: {}, secretUnlocked: false,
+  sabotageCooldowns: {}, secretUnlocked: false, unlockedSkins: [],
   isHost: false, cursorEnabled: false, foxyActive: false,
   debugMsgCount: 0,
   activeChaos: null, chaosEndsAt: 0, goldenFreddyActive: false,
@@ -218,7 +223,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setPlayerName: (n) => set({ playerName: n }),
   setSkin: (s) => set({ selectedSkin: s }),
   setTeam: (t) => set(st => ({ players: st.players.map(p => p.id === st.myId ? { ...p, team: t } : p) })),
-  unlockSecret: () => set({ secretUnlocked: true }),
+  unlockSecret: (skin) => set(st => ({
+    secretUnlocked: true,
+    unlockedSkins: skin && !st.unlockedSkins.includes(skin) ? [...st.unlockedSkins, skin] : st.unlockedSkins,
+  })),
   setCursorEnabled: (e) => set({ cursorEnabled: e }),
 
   updateSettings: (partial) => set(st => {
