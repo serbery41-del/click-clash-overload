@@ -370,15 +370,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
       get().triggerFoxy();
     }
 
+    const autoBoost = (st.activeChaos === 'autoBoost' && st.chaosEndsAt > Date.now()) ? 2 : 1;
     const list = st.players.map(p => {
       if (p.id !== st.myId) return p;
       const u = { ...p };
       u.activeSabotages = u.activeSabotages.filter(s => s.endsAt > Date.now());
       const frozen = u.activeSabotages.some(s => s.type === 'frozenGear');
-      if (u.cps > 0 && !frozen) u.total += u.cps * u.multiplier * delta;
+      if (u.cps > 0 && !frozen) u.total += u.cps * u.multiplier * autoBoost * delta;
       if (u.investRate > 0 && !frozen) u.total += u.total * u.investRate * delta;
       return u;
     });
+    // expire chaos
+    if (st.activeChaos && st.chaosEndsAt < Date.now()) {
+      set({ activeChaos: null });
+    }
 
     const elapsed = st.timeElapsed + delta;
     const remain = st.settings.goalType === 'timedSprint' ? Math.max(0, st.settings.timeLimit - elapsed) : 0;
