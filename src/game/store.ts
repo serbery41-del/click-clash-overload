@@ -265,7 +265,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!st.isHost) return;
     const cp = st.settings.seedBonus ? st.settings.seedBonusAmount : 0;
     const ck = st.settings.startingClickPower;
-    const np = st.players.map(p => ({ ...p, total: cp, clickPower: ck }));
+    const teams: Array<'purple' | 'pink' | 'green' | 'orange'> = ['purple', 'pink', 'green', 'orange'];
+    const np = st.players.map((p, i) => ({
+      ...p,
+      total: cp,
+      clickPower: ck,
+      team: st.settings.teamsEnabled ? teams[i % teams.length] : 'none' as const,
+    }));
     set({
       phase: 'playing', players: np,
       feed: [{ id: '0', message: 'Race started!', timestamp: Date.now(), type: 'system' as const }],
