@@ -5,7 +5,15 @@ import * as mp from '../multiplayer';
 import type { GoalType, StakeMode, Difficulty } from '../types';
 
 export default function LobbyScreen() {
-  const { settings, updateSettings, startGame, setPhase, playerName, selectedSkin, players, myId } = useGameStore();
+  const { settings, updateSettings, startGame, setPhase, playerName, selectedSkin, players, myId, setTeam } = useGameStore();
+  const me = players.find(p => p.id === myId);
+  const TEAM_OPTS: { id: any; label: string; color: string }[] = [
+    { id: 'none', label: 'No Team', color: '#888' },
+    { id: 'purple', label: 'Purple', color: '#a855f7' },
+    { id: 'pink', label: 'Pink', color: '#ff0080' },
+    { id: 'green', label: 'Green', color: '#00ff88' },
+    { id: 'orange', label: 'Orange', color: '#ffaa00' },
+  ];
 
   return (
     <div className="min-h-screen bg-main page-scroll">
