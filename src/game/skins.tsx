@@ -43,13 +43,28 @@ const WIN11_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32
   <rect x="17" y="17" width="12" height="12" rx="1" fill="url(#w11g)"/>
 </svg>`;
 
+// Pointing-finger hand cursor — index finger extended upward, hotspot at fingertip (~12,2)
+const fingerPath = `M12 2 C10.9 2 10 2.9 10 4 L10 11 L9 11 L9 7 C9 5.9 8.1 5 7 5 C5.9 5 5 5.9 5 7 L5 16 C5 19.3 7.7 22 11 22 L14 22 C17.3 22 20 19.3 20 16 L20 10 C20 8.9 19.1 8 18 8 C17.6 8 17.3 8.1 17 8.3 C16.8 7.6 16.1 7 15.3 7 C14.8 7 14.4 7.2 14 7.5 L14 4 C14 2.9 13.1 2 12 2 Z`;
+const finger = (fill: string, stroke: string, extra = '') =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="${fingerPath}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" stroke-linejoin="round"/>${extra}</svg>`;
+
 const CURSOR_SVGS: Record<SkinId, string> = {
-  classic: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="white" stroke="black" stroke-width="1.5"/></svg>`,
-  mint: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="#87cf3e" stroke="#1a472a" stroke-width="1.5"/></svg>`,
-  retro: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><rect x="1" y="1" width="2" height="12" fill="#ffcc00"/><rect x="3" y="3" width="2" height="8" fill="#cc6600"/><rect x="5" y="5" width="4" height="4" fill="#ffcc00"/><rect x="7" y="7" width="4" height="4" fill="#cc6600"/></svg>`,
-  neon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><defs><filter id="g"><feGaussianBlur stdDeviation="1"/></filter></defs><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="none" stroke="#ff00ff" stroke-width="2" filter="url(#g)"/><path d="M6 6L6 14L9 11" stroke="#a855f7" stroke-width="1.5"/></svg>`,
+  classic: finger('#ffffff', '#000000'),
+  mint: finger('#87cf3e', '#1a472a'),
+  retro: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="7" y="1" width="2" height="2" fill="#ffcc00"/><rect x="7" y="3" width="2" height="2" fill="#ffcc00"/><rect x="7" y="5" width="2" height="2" fill="#ffcc00"/><rect x="5" y="7" width="2" height="2" fill="#ffcc00"/><rect x="7" y="7" width="2" height="2" fill="#ffcc00"/><rect x="9" y="7" width="2" height="2" fill="#ffcc00"/><rect x="5" y="9" width="2" height="2" fill="#ffcc00"/><rect x="7" y="9" width="2" height="2" fill="#ffcc00"/><rect x="9" y="9" width="2" height="2" fill="#ffcc00"/><rect x="5" y="11" width="6" height="2" fill="#cc6600"/><rect x="5" y="13" width="6" height="2" fill="#cc6600"/></svg>`,
+  neon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><defs><filter id="ng" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.2"/></filter></defs><path d="${fingerPath}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linejoin="round" filter="url(#ng)"/><path d="${fingerPath}" fill="none" stroke="#a855f7" stroke-width="1"/></svg>`,
   tux: TUX_SVG,
   win11: WIN11_SVG,
+};
+
+// Hotspot per skin: [x, y] in the 32x32 cursor image
+const CURSOR_HOTSPOTS: Record<SkinId, [number, number]> = {
+  classic: [16, 3],
+  mint: [16, 3],
+  retro: [16, 3],
+  neon: [16, 3],
+  tux: [16, 16],
+  win11: [16, 16],
 };
 
 export const SKINS: Skin[] = [
@@ -103,14 +118,26 @@ export function getSkin(id: SkinId): Skin {
   return SKINS.find(s => s.id === id) || SKINS[0];
 }
 
+const CURSOR_STYLE_ID = '__cc_cursor_style';
+
 export function applyCursor(skinId: SkinId) {
   const skin = getSkin(skinId);
-  if (skin.cursorData) {
-    document.body.style.cursor = `url("${skin.cursorData}") 4 4, auto`;
+  if (!skin.cursorData) return;
+  const [hx, hy] = CURSOR_HOTSPOTS[skinId] ?? [4, 4];
+  const rule = `*, *::before, *::after { cursor: url("${skin.cursorData}") ${hx} ${hy}, auto !important; }`;
+  let el = document.getElementById(CURSOR_STYLE_ID) as HTMLStyleElement | null;
+  if (!el) {
+    el = document.createElement('style');
+    el.id = CURSOR_STYLE_ID;
+    document.head.appendChild(el);
   }
+  el.textContent = rule;
+  document.body.style.cursor = `url("${skin.cursorData}") ${hx} ${hy}, auto`;
 }
 
 export function resetCursor() {
+  const el = document.getElementById(CURSOR_STYLE_ID);
+  if (el) el.remove();
   document.body.style.cursor = 'auto';
 }
 
@@ -130,37 +157,20 @@ export function CursorIcon({ skinId, size = 32, className = '' }: { skinId: Skin
 
   switch (skinId) {
     case 'classic':
-      return (
-        <svg width={size} height={size} viewBox="0 0 24 24" className={className}>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
-        </svg>
-      );
     case 'mint':
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" className={className}>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
-          <circle cx="7" cy="8" r="2" fill={skin.colors.secondary} opacity="0.5"/>
+          <path d={fingerPath} fill={skin.colors.primary} stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinejoin="round"/>
         </svg>
       );
     case 'retro':
       return (
-        <svg width={size} height={size} viewBox="0 0 16 16" className={className} style={{ imageRendering: 'pixelated' }}>
-          <rect x="1" y="1" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="3" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="5" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="3" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="5" width="2" height="2" fill={skin.colors.secondary}/>
-          <rect x="3" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="5" y="5" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="5" y="7" width="2" height="2" fill={skin.colors.secondary}/>
-          <rect x="5" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="7" y="7" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="7" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="9" y="9" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="1" y="11" width="2" height="2" fill={skin.colors.primary}/>
-          <rect x="3" y="9" width="2" height="2" fill={skin.colors.primary}/>
+        <svg width={size} height={size} viewBox="0 0 16 16" className={className} style={{ imageRendering: 'pixelated' }} shapeRendering="crispEdges">
+          {[[7,1],[7,3],[7,5],[5,7],[7,7],[9,7],[5,9],[7,9],[9,9]].map(([x,y],i) => (
+            <rect key={i} x={x} y={y} width="2" height="2" fill={skin.colors.primary}/>
+          ))}
+          <rect x="5" y="11" width="6" height="2" fill={skin.colors.secondary}/>
+          <rect x="5" y="13" width="6" height="2" fill={skin.colors.secondary}/>
         </svg>
       );
     case 'neon':
@@ -175,8 +185,8 @@ export function CursorIcon({ skinId, size = 32, className = '' }: { skinId: Skin
               </feMerge>
             </filter>
           </defs>
-          <path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="transparent" stroke={skin.colors.primary} strokeWidth="2" strokeLinejoin="round" filter="url(#neonGlow)"/>
-          <path d="M6 6L6 14L9 11L11 15" fill="none" stroke={skin.colors.secondary} strokeWidth="1.5" strokeLinecap="round"/>
+          <path d={fingerPath} fill="none" stroke={skin.colors.primary} strokeWidth="2" strokeLinejoin="round" filter="url(#neonGlow)"/>
+          <path d={fingerPath} fill="none" stroke={skin.colors.secondary} strokeWidth="1"/>
         </svg>
       );
     default:
