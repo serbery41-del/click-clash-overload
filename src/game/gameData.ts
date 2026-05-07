@@ -88,15 +88,16 @@ export const SHOP_ITEMS: ShopItem[] = [
   ci('s20', 'Pulsar Beacon', '+400/s', 'special', 180000000000, 1.41, 'cps', 400, 9),
 ];
 
+// Sabotages — sorted lowest → highest cost
 export const SABOTAGE_ABILITIES: SabotageAbility[] = [
   { id: 'smokeBomb', name: 'Smoke Screen', description: 'Obscure their button', baseCost: 4500, duration: 5, cooldown: 15 },
-  { id: 'taxman', name: 'Tax Collector', description: 'Steal % of their bank', baseCost: 800000, duration: 0, cooldown: 30 },
   { id: 'frozenGear', name: 'System Freeze', description: 'Stop their auto-income', baseCost: 18000, duration: 5, cooldown: 20 },
   { id: 'inflationSpike', name: 'Price Surge', description: 'Double their costs', baseCost: 30000, duration: 8, cooldown: 25 },
   { id: 'stunLock', name: 'Input Lock', description: 'Disable their clicking', baseCost: 75000, duration: 3, cooldown: 45 },
+  { id: 'taxman', name: 'Tax Collector', description: 'Steal % of their bank', baseCost: 800000, duration: 0, cooldown: 30 },
   { id: 'foxy', name: 'FOXY JUMPSCARE', description: 'TERRIFYING JUMPSCARE', baseCost: 1500000, duration: 3, cooldown: 120 },
   { id: 'goldenFreddy', name: 'GOLDEN FREDDY', description: 'Mysterious jumpscare on their screen', baseCost: 5000000, duration: 4, cooldown: 180 },
-];
+].sort((a, b) => a.baseCost - b.baseCost);
 
 export const DIFFICULTY_PRESETS: Record<string, Partial<LobbySettings>> = {
   sprint: { targetValue: 1_000_000, timeLimit: 180 },
