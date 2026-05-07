@@ -165,7 +165,7 @@ interface GameStore {
   timeRemaining: number; timeElapsed: number; winnerId: string | null;
   playerName: string; selectedSkin: SkinId;
   sabotageCooldowns: Record<string, number>;
-  secretUnlocked: boolean; isHost: boolean; cursorEnabled: boolean; foxyActive: boolean;
+  secretUnlocked: boolean; unlockedSkins: SkinId[]; isHost: boolean; cursorEnabled: boolean; foxyActive: boolean;
   debugMsgCount: number;
   // chaos
   activeChaos: ChaosEventId | null;
