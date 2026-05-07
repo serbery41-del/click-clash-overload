@@ -412,7 +412,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
       get().triggerFoxy();
     }
 
-    const autoBoost = (st.activeChaos === 'autoBoost' && st.chaosEndsAt > Date.now()) ? 2 : 1;
+    let autoMul = 1;
+    if (st.activeChaos && st.chaosEndsAt > Date.now()) {
+      if (st.activeChaos === 'autoBoost') autoMul = 2;
+      else if (st.activeChaos === 'goldRush') autoMul = 3;
+      else if (st.activeChaos === 'marketDip') autoMul = 0.5;
+    }
+    const autoBoost = autoMul;
     const list = st.players.map(p => {
       if (p.id !== st.myId) return p;
       const u = { ...p };
