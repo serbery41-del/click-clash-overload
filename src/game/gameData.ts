@@ -193,13 +193,18 @@ export type ChaosEventId =
   | 'autoBoost'
   | 'frenzy'
   | 'blackout'
-  | 'taxStorm';
+  | 'taxStorm'
+  | 'meteor'
+  | 'goldRush'
+  | 'powerSurge'
+  | 'marketDip'
+  | 'bonusRain';
 
 export interface ChaosEvent {
   id: ChaosEventId;
   name: string;
   message: string;
-  duration: number; // seconds (visual)
+  duration: number;
 }
 
 export const CHAOS_EVENTS: ChaosEvent[] = [
@@ -210,6 +215,11 @@ export const CHAOS_EVENTS: ChaosEvent[] = [
   { id: 'frenzy', name: 'Click Frenzy', message: 'Everyone gets +50% click for 8s!', duration: 8 },
   { id: 'blackout', name: 'Blackout', message: 'Lights out for 5 seconds!', duration: 5 },
   { id: 'taxStorm', name: 'Tax Storm', message: 'Leader loses 5% of bank!', duration: 3 },
+  { id: 'meteor', name: 'Meteor Strike', message: 'Everyone loses 10% of bank!', duration: 3 },
+  { id: 'goldRush', name: 'Gold Rush', message: 'Auto-income x3 for 8s!', duration: 8 },
+  { id: 'powerSurge', name: 'Power Surge', message: 'Click power x3 for 5s!', duration: 5 },
+  { id: 'marketDip', name: 'Market Dip', message: 'Auto-income halved for 10s!', duration: 10 },
+  { id: 'bonusRain', name: 'Bonus Rain', message: 'Everyone +15% bank!', duration: 3 },
 ];
 
 // ── SOUND EFFECTS LIBRARY ──
