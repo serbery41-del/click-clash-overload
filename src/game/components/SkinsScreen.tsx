@@ -10,10 +10,15 @@ export default function SkinsScreen() {
 
   const handleSecretCheck = (code: string) => {
     setSecretCode(code);
-    if (code.toLowerCase() === 'tux' || code.toLowerCase() === 'linux' || code.toLowerCase() === 'penguin') {
+    const c = code.toLowerCase();
+    if (c === 'tux' || c === 'linux' || c === 'penguin') {
       unlockSecret();
       setShowSecret(false);
       setSkin('tux');
+    } else if (c === 'windows' || c === 'win11' || c === 'microsoft') {
+      unlockSecret();
+      setShowSecret(false);
+      setSkin('win11');
     }
   };
 
