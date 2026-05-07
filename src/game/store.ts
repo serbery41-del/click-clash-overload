@@ -178,7 +178,7 @@ interface GameStore {
   updateSettings: (p: Partial<LobbySettings>) => void;
   setPlayerName: (n: string) => void; setSkin: (s: SkinId) => void;
   setTeam: (t: any) => void;
-  unlockSecret: () => void; setCursorEnabled: (e: boolean) => void;
+  unlockSecret: (skin?: SkinId) => void; setCursorEnabled: (e: boolean) => void;
   createRoom: () => void; joinRoom: (code: string) => void; startGame: () => void;
   handleClick: () => void; buyItem: (id: string) => void;
   useSabotage: (sabId: string, targetId: string) => void;
