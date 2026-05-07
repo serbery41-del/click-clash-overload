@@ -3,6 +3,8 @@ import { useGameStore } from '../store';
 import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, formatNumber, getSabotageCost } from '../gameData';
 import { CursorIcon, CursorMini, applyCursor, resetCursor } from '../skins';
 import type { PlayerState, ShopItem } from '../types';
+import foxyImg from '../assets/foxy-jumpscare.jpg';
+import goldenFreddyImg from '../assets/golden-freddy.jpg';
 
 interface ClickParticle { id: number; x: number; y: number; value: number }
 
@@ -99,87 +101,30 @@ export default function GameScreen() {
   return (
     <div className={`h-screen flex ${isPhone ? 'flex-col' : 'flex-row'} bg-main text-white overflow-hidden relative`}>
       
-      {/* FOXY JUMPSCARE OVERLAY */}
+      {/* FOXY JUMPSCARE OVERLAY — full-screen image, violent shake */}
       {foxyActive && (
-        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center animate-pulse" style={{ animation: 'none' }}>
-          <div className="relative animate-bounce" style={{ animation: 'foxyShake 0.1s infinite' }}>
-            {/* Foxy SVG */}
-            <svg width="400" height="400" viewBox="0 0 100 100" className="drop-shadow-[0_0_50px_rgba(255,0,0,0.8)]">
-              {/* Head */}
-              <ellipse cx="50" cy="45" rx="35" ry="30" fill="#8B2500"/>
-              {/* Snout */}
-              <ellipse cx="50" cy="58" rx="18" ry="12" fill="#CD853F"/>
-              {/* Eyes */}
-              <ellipse cx="35" cy="40" rx="10" ry="12" fill="#FFD700"/>
-              <ellipse cx="65" cy="40" rx="10" ry="12" fill="#FFD700"/>
-              {/* Pupils - menacing */}
-              <ellipse cx="35" cy="40" rx="4" ry="8" fill="#000"/>
-              <ellipse cx="65" cy="40" rx="4" ry="8" fill="#000"/>
-              {/* Red glow in eyes */}
-              <circle cx="35" cy="38" r="2" fill="#ff0000"/>
-              <circle cx="65" cy="38" r="2" fill="#ff0000"/>
-              {/* Mouth - open with teeth */}
-              <path d="M32 62 Q50 80 68 62" fill="#000" stroke="#8B2500" strokeWidth="2"/>
-              {/* Teeth */}
-              <path d="M35 62 L38 70 L41 62" fill="white"/>
-              <path d="M45 62 L48 72 L51 62" fill="white"/>
-              <path d="M55 62 L58 72 L61 62" fill="white"/>
-              <path d="M59 62 L62 70 L65 62" fill="white"/>
-              {/* Ears */}
-              <polygon points="20,25 25,5 35,25" fill="#8B2500"/>
-              <polygon points="80,25 75,5 65,25" fill="#8B2500"/>
-              {/* Inner ears */}
-              <polygon points="23,23 26,10 32,23" fill="#CD853F"/>
-              <polygon points="77,23 74,10 68,23" fill="#CD853F"/>
-              {/* Eyepatch */}
-              <ellipse cx="65" cy="40" rx="12" ry="14" fill="none" stroke="#333" strokeWidth="3"/>
-              <line x1="77" y1="35" x2="90" y2="25" stroke="#333" strokeWidth="2"/>
-              {/* Hook hand */}
-              <path d="M85 75 Q95 85 90 95" fill="none" stroke="#888" strokeWidth="4" strokeLinecap="round"/>
-              <circle cx="85" cy="75" r="5" fill="#8B2500"/>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-red-600 text-6xl font-black animate-pulse drop-shadow-[0_0_20px_red]" style={{ textShadow: '0 0 30px red, 0 0 60px red' }}>
-                !!!
-              </span>
-            </div>
-          </div>
+        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden">
+          <img
+            src={foxyImg}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ animation: 'foxyShake 0.06s infinite' }}
+          />
+          <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 200px 80px rgba(255,0,0,0.5)' }} />
         </div>
       )}
 
-      {/* GOLDEN FREDDY chaos overlay — slow, mysterious */}
+      {/* GOLDEN FREDDY OVERLAY — slow eerie fade + flicker */}
       {goldenFreddyActive && (
-        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center" style={{ animation: 'gfFade 4s ease-in-out forwards' }}>
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(40,30,0,0.6) 0%, #000 70%)' }} />
-          <div className="relative" style={{ animation: 'gfFlicker 0.6s steps(2) infinite' }}>
-            <svg width="520" height="520" viewBox="0 0 100 100">
-              {/* Body / head silhouette */}
-              <ellipse cx="50" cy="50" rx="38" ry="34" fill="#1a1100"/>
-              <ellipse cx="50" cy="48" rx="34" ry="30" fill="#2b1d00"/>
-              <ellipse cx="50" cy="62" rx="20" ry="14" fill="#1a1100"/>
-              {/* Ears */}
-              <polygon points="16,28 24,6 36,28" fill="#1a1100"/>
-              <polygon points="84,28 76,6 64,28" fill="#1a1100"/>
-              {/* Eye sockets - black void */}
-              <ellipse cx="34" cy="44" rx="11" ry="13" fill="#000"/>
-              <ellipse cx="66" cy="44" rx="11" ry="13" fill="#000"/>
-              {/* Glowing pinprick eyes */}
-              <circle cx="34" cy="44" r="1.6" fill="#fff" style={{ filter: 'drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff)' }}/>
-              <circle cx="66" cy="44" r="1.6" fill="#fff" style={{ filter: 'drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff)' }}/>
-              {/* Mouth - dark agape */}
-              <path d="M30 62 Q50 78 70 62 Q60 70 50 70 Q40 70 30 62 Z" fill="#000"/>
-              <path d="M34 64 L37 72 L40 64 M44 64 L47 74 L50 64 M54 64 L57 74 L60 64 M60 64 L63 72 L66 64" stroke="#d4a017" strokeWidth="0.8" fill="none" opacity="0.6"/>
-              {/* Hat */}
-              <rect x="42" y="18" width="16" height="3" fill="#000"/>
-              <rect x="46" y="12" width="8" height="6" fill="#000"/>
-              <circle cx="50" cy="13" r="1.2" fill="#d4a017"/>
-              {/* Bowtie */}
-              <polygon points="42,72 46,68 46,76" fill="#000"/>
-              <polygon points="58,72 54,68 54,76" fill="#000"/>
-              <rect x="48" y="69" width="4" height="6" fill="#000"/>
-            </svg>
-          </div>
-          <div className="absolute bottom-20 text-yellow-100/40 text-2xl font-serif italic tracking-[0.3em]" style={{ textShadow: '0 0 30px rgba(212,160,23,0.6)', animation: 'gfTextFade 4s ease-in-out forwards' }}>
+        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center overflow-hidden" style={{ animation: 'gfFade 4s ease-in-out forwards' }}>
+          <img
+            src={goldenFreddyImg}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ animation: 'gfFlicker 0.6s steps(2) infinite' }}
+          />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at center, transparent 40%, #000 90%)' }} />
+          <div className="absolute bottom-20 text-yellow-100/60 text-3xl font-serif italic tracking-[0.3em]" style={{ textShadow: '0 0 30px rgba(212,160,23,0.7)', animation: 'gfTextFade 4s ease-in-out forwards' }}>
             it's me
           </div>
         </div>

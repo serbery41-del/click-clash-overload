@@ -90,7 +90,7 @@ export const SHOP_ITEMS: ShopItem[] = [
 
 export const SABOTAGE_ABILITIES: SabotageAbility[] = [
   { id: 'smokeBomb', name: 'Smoke Screen', description: 'Obscure their button', baseCost: 4500, duration: 5, cooldown: 15 },
-  { id: 'taxman', name: 'Tax Collector', description: 'Steal % of their bank', baseCost: 45000, duration: 0, cooldown: 30 },
+  { id: 'taxman', name: 'Tax Collector', description: 'Steal % of their bank', baseCost: 800000, duration: 0, cooldown: 30 },
   { id: 'frozenGear', name: 'System Freeze', description: 'Stop their auto-income', baseCost: 18000, duration: 5, cooldown: 20 },
   { id: 'inflationSpike', name: 'Price Surge', description: 'Double their costs', baseCost: 30000, duration: 8, cooldown: 25 },
   { id: 'stunLock', name: 'Input Lock', description: 'Disable their clicking', baseCost: 75000, duration: 3, cooldown: 45 },
