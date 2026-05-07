@@ -8,7 +8,7 @@ interface ClickParticle { id: number; x: number; y: number; value: number }
 
 export default function GameScreen() {
   const store = useGameStore();
-  const { players, myId, settings, feed, timeRemaining, winnerId, sabotageCooldowns, deviceMode, selectedSkin, foxyActive, cursorEnabled } = store;
+  const { players, myId, settings, feed, timeRemaining, winnerId, sabotageCooldowns, deviceMode, selectedSkin, foxyActive, cursorEnabled, goldenFreddyActive, activeChaos, chaosEndsAt, cheatLockedUntil } = store;
   const lastTick = useRef(Date.now());
   const [particles, setParticles] = useState<ClickParticle[]>([]);
   const [cpm, setCpm] = useState(0);
@@ -147,9 +147,53 @@ export default function GameScreen() {
         </div>
       )}
 
+      {/* GOLDEN FREDDY chaos overlay */}
+      {goldenFreddyActive && (
+        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center" style={{ animation: 'foxyShake 0.08s infinite' }}>
+          <svg width="500" height="500" viewBox="0 0 100 100" className="drop-shadow-[0_0_60px_rgba(255,215,0,0.9)]">
+            <ellipse cx="50" cy="48" rx="36" ry="32" fill="#DAA520"/>
+            <ellipse cx="50" cy="60" rx="20" ry="13" fill="#B8860B"/>
+            <ellipse cx="34" cy="42" rx="11" ry="13" fill="#000"/>
+            <ellipse cx="66" cy="42" rx="11" ry="13" fill="#000"/>
+            <circle cx="34" cy="42" r="3" fill="#fff"/>
+            <circle cx="66" cy="42" r="3" fill="#fff"/>
+            <path d="M30 65 Q50 85 70 65 Z" fill="#000"/>
+            <path d="M34 65 L37 75 L40 65 M44 65 L47 78 L50 65 M54 65 L57 78 L60 65 M60 65 L63 75 L66 65" stroke="#fff" strokeWidth="1.5" fill="white"/>
+            <polygon points="18,28 26,8 36,28" fill="#DAA520"/>
+            <polygon points="82,28 74,8 64,28" fill="#DAA520"/>
+            <rect x="46" y="20" width="8" height="6" fill="#000"/>
+            <circle cx="50" cy="23" r="1.5" fill="#FFD700"/>
+          </svg>
+          <div className="absolute bottom-20 text-yellow-400 text-5xl font-black tracking-widest" style={{ textShadow: '0 0 30px gold' }}>
+            IT'S ME.
+          </div>
+        </div>
+      )}
+
+      {/* CHAOS event banner */}
+      {activeChaos && chaosEndsAt > Date.now() && !goldenFreddyActive && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[80] bg-gradient-to-r from-yellow-500/90 to-red-500/90 px-6 py-2 rounded-full border-2 border-yellow-300 font-black text-black uppercase tracking-wider text-sm animate-pulse">
+          ⚡ {activeChaos === 'doubleClick' ? 'DOUBLE CLICK' : activeChaos === 'priceCrash' ? 'PRICE CRASH -30%' : activeChaos === 'autoBoost' ? 'AUTO OVERDRIVE' : activeChaos === 'frenzy' ? 'CLICK FRENZY' : activeChaos === 'blackout' ? 'BLACKOUT' : activeChaos === 'taxStorm' ? 'TAX STORM' : 'CHAOS'}
+        </div>
+      )}
+
+      {/* BLACKOUT chaos overlay */}
+      {activeChaos === 'blackout' && chaosEndsAt > Date.now() && (
+        <div className="fixed inset-0 z-[70] bg-black/95 pointer-events-none" />
+      )}
+
+      {/* ANTI-CHEAT LOCK overlay */}
+      {cheatLockedUntil > Date.now() && (
+        <div className="fixed inset-0 z-[90] bg-red-900/80 backdrop-blur flex flex-col items-center justify-center pointer-events-none">
+          <div className="text-red-300 text-3xl font-black mb-2">⚠ ANTI-CHEAT TRIGGERED ⚠</div>
+          <div className="text-white text-xl font-mono">Frozen for {Math.ceil((cheatLockedUntil - Date.now()) / 1000)}s</div>
+          <div className="text-red-200 text-sm mt-3">Clicking faster than {settings.antiCheatCpsThreshold} CPS is not allowed</div>
+        </div>
+      )}
+
       {/* Room Code - Top Right */}
-      <div className="absolute top-3 right-3 z-50 bg-black/80 border border-[#00ffff]/40 rounded-lg px-3 py-1.5 backdrop-blur-sm">
-        <div className="text-[8px] text-[#00ffff] uppercase tracking-wider">Room</div>
+      <div className="absolute top-3 right-3 z-50 bg-black/80 border border-[#a855f7]/40 rounded-lg px-3 py-1.5 backdrop-blur-sm">
+        <div className="text-[8px] text-[#a855f7] uppercase tracking-wider">Room</div>
         <div className="text-sm font-mono font-black text-white tracking-wider">{settings.roomCode}</div>
       </div>
 
@@ -157,27 +201,27 @@ export default function GameScreen() {
       <div className={`flex flex-col ${isPhone ? 'flex-1 min-h-0' : 'flex-1'}`}>
         {/* Top bar */}
         {settings.showLeaderboard && (
-          <div className="shrink-0 border-b border-[#00ffff]/20 bg-black/50 backdrop-blur-sm">
+          <div className="shrink-0 border-b border-[#a855f7]/20 bg-black/50 backdrop-blur-sm">
             <div className="flex items-center gap-2 px-3 py-2 overflow-x-auto pr-24">
               <div className="shrink-0 text-sm font-mono font-bold mr-2">
                 {settings.goalType === 'timedSprint' ? (
                   <span className="text-[#ff0080]">{fmtTime(timeRemaining)}</span>
                 ) : (
-                  <span className="text-[#00ffff]">{formatNumber(settings.targetValue)}</span>
+                  <span className="text-[#a855f7]">{formatNumber(settings.targetValue)}</span>
                 )}
               </div>
               {sorted.map((p, i) => (
                 <div key={p.id} className={`shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs transition-all ${
                   p.id === myId 
-                    ? 'bg-gradient-to-r from-[#00ffff]/20 to-[#ff0080]/20 border border-[#00ffff]/40' 
+                    ? 'bg-gradient-to-r from-[#a855f7]/20 to-[#ff0080]/20 border border-[#a855f7]/40' 
                     : 'bg-white/5'
                 }`}>
-                  <span className={`font-mono text-[10px] font-black ${i === 0 ? 'text-[#00ffff]' : i === 1 ? 'text-white' : i === 2 ? 'text-[#ff0080]' : 'text-white/40'}`}>
+                  <span className={`font-mono text-[10px] font-black ${i === 0 ? 'text-[#a855f7]' : i === 1 ? 'text-white' : i === 2 ? 'text-[#ff0080]' : 'text-white/40'}`}>
                     {i + 1}
                   </span>
                   <CursorMini skinId={p.skinId} size={14} />
                   <span className="font-medium truncate max-w-[50px]">{p.name}</span>
-                  <span className="font-mono text-[10px] text-[#00ffff]">{formatNumber(p.total)}</span>
+                  <span className="font-mono text-[10px] text-[#a855f7]">{formatNumber(p.total)}</span>
                 </div>
               ))}
             </div>
@@ -193,7 +237,7 @@ export default function GameScreen() {
                           className="h-full rounded-full transition-all duration-300 ease-out" 
                           style={{ 
                             width: `${pct}%`, 
-                            background: p.id === myId ? 'linear-gradient(90deg, #00ffff, #ff0080)' : p.color
+                            background: p.id === myId ? 'linear-gradient(90deg, #a855f7, #ff0080)' : p.color
                           }} 
                         />
                       </div>
@@ -211,7 +255,7 @@ export default function GameScreen() {
           {/* Stats */}
           <div className="flex gap-6 mb-5 flex-wrap justify-center">
             <StatBlock label="Total" value={formatNumber(human.total)} color="text-white" />
-            <StatBlock label="Click" value={formatNumber(human.clickPower * human.multiplier)} color="text-[#00ffff]" />
+            <StatBlock label="Click" value={formatNumber(human.clickPower * human.multiplier)} color="text-[#a855f7]" />
             <StatBlock label="Auto" value={formatNumber(human.cps * human.multiplier * (isFrozen ? 0 : 1))} color="text-[#ff0080]" />
             {human.investRate > 0 && <StatBlock label="Invest" value={`${(human.investRate * 100).toFixed(2)}%/s`} color="text-green-400" />}
             {!isPhone && <StatBlock label="CPM" value={String(cpm)} color="text-white/60" />}
@@ -240,7 +284,7 @@ export default function GameScreen() {
               className={`
                 relative rounded-full transition-transform duration-75 select-none cursor-pointer
                 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
-                bg-gradient-to-br from-[#00ffff] via-[#00cccc] to-[#ff0080] text-black font-black
+                bg-gradient-to-br from-[#a855f7] via-[#9333ea] to-[#ff0080] text-black font-black
                 glow-pulse
                 ${isPhone ? 'w-40 h-40' : 'w-52 h-52'}
                 ${shaking ? 'scale-95' : ''}
@@ -253,7 +297,7 @@ export default function GameScreen() {
               </span>
               <div className="absolute inset-0 rounded-full border-4 border-white/30 pulse-ring" />
               {particles.map(p => (
-                <span key={p.id} className="click-num absolute text-base font-black text-[#00ffff] z-20 drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]" style={{ left: p.x, top: p.y }}>
+                <span key={p.id} className="click-num absolute text-base font-black text-[#a855f7] z-20 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]" style={{ left: p.x, top: p.y }}>
                   +{formatNumber(p.value)}
                 </span>
               ))}
@@ -266,7 +310,7 @@ export default function GameScreen() {
           </div>
 
           {human.multiplier > 1 && (
-            <div className="mt-4 text-sm text-[#00ffff] font-mono font-bold bg-[#00ffff]/10 px-4 py-2 rounded-full border border-[#00ffff]/30">
+            <div className="mt-4 text-sm text-[#a855f7] font-mono font-bold bg-[#a855f7]/10 px-4 py-2 rounded-full border border-[#a855f7]/30">
               {human.multiplier.toFixed(2)}x MULTIPLIER
             </div>
           )}
@@ -281,10 +325,10 @@ export default function GameScreen() {
       </div>
 
       {/* ── RIGHT / BOTTOM: Shop panel ── */}
-      <div className={`${isPhone ? 'h-[50%] border-t' : 'w-80 lg:w-96 border-l'} border-[#00ffff]/20 flex flex-col bg-black/50 backdrop-blur-sm shrink-0`}>
+      <div className={`${isPhone ? 'h-[50%] border-t' : 'w-80 lg:w-96 border-l'} border-[#a855f7]/20 flex flex-col bg-black/50 backdrop-blur-sm shrink-0`}>
         {/* Tab bar */}
         <div className="flex shrink-0 border-b border-white/10">
-          <button onClick={() => setTab('shop')} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition ${tab === 'shop' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : 'text-white/40 hover:text-white/60'}`}>
+          <button onClick={() => setTab('shop')} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition ${tab === 'shop' ? 'text-[#a855f7] border-b-2 border-[#a855f7]' : 'text-white/40 hover:text-white/60'}`}>
             Shop
           </button>
           {settings.sabotagesEnabled && (
@@ -300,7 +344,7 @@ export default function GameScreen() {
             <div>
               <div className="flex border-b border-white/5 px-1 sticky top-0 bg-black/90 z-10 backdrop-blur-sm">
                 {([
-                  { key: 'click' as const, label: 'Click', color: 'text-[#00ffff]' },
+                  { key: 'click' as const, label: 'Click', color: 'text-[#a855f7]' },
                   { key: 'auto' as const, label: 'Auto', color: 'text-[#ff0080]' },
                   { key: 'invest' as const, label: 'Invest', color: 'text-green-400' },
                   { key: 'special' as const, label: 'Mix', color: 'text-yellow-400' },
@@ -324,7 +368,7 @@ export default function GameScreen() {
           <div className="border-t border-white/10 max-h-20 overflow-y-auto page-scroll px-3 py-1.5 shrink-0 bg-black/50">
             {feed.slice(0, 6).map(f => (
               <div key={f.id} className={`feed-slide text-[10px] py-0.5 truncate ${
-                f.type === 'sabotage' ? 'text-[#ff0080]' : f.type === 'purchase' ? 'text-[#00ffff]' : 'text-white/40'
+                f.type === 'sabotage' ? 'text-[#ff0080]' : f.type === 'purchase' ? 'text-[#a855f7]' : 'text-white/40'
               }`}>{f.message}</div>
             ))}
           </div>
@@ -356,7 +400,7 @@ function ShopList({ player, category, hasInflation, settings, players }: {
   const growthMod = settings.costGrowthRate / 100;
   
   const catColors: Record<string, string> = {
-    click: 'from-[#00ffff]/20 to-[#00ffff]/5',
+    click: 'from-[#a855f7]/20 to-[#a855f7]/5',
     auto: 'from-[#ff0080]/20 to-[#ff0080]/5',
     invest: 'from-green-500/20 to-green-500/5',
     special: 'from-yellow-500/20 to-yellow-500/5',
@@ -375,7 +419,7 @@ function ShopList({ player, category, hasInflation, settings, players }: {
         </div>
       )}
       {discount < 1 && (
-        <div className="px-3 py-2 bg-[#00ffff]/20 border border-[#00ffff]/30 rounded-lg text-xs text-[#00ffff] text-center font-bold">
+        <div className="px-3 py-2 bg-[#a855f7]/20 border border-[#a855f7]/30 rounded-lg text-xs text-[#a855f7] text-center font-bold">
           CATCH-UP: -{settings.catchUpPercent}% costs
         </div>
       )}
@@ -399,11 +443,11 @@ function ShopList({ player, category, hasInflation, settings, players }: {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-white truncate">{item.name}</span>
-                {owned > 0 && <span className="text-[10px] text-[#00ffff] ml-1 shrink-0">x{owned}</span>}
+                {owned > 0 && <span className="text-[10px] text-[#a855f7] ml-1 shrink-0">x{owned}</span>}
               </div>
               <div className="text-[10px] text-white/40">{item.description}</div>
             </div>
-            <div className={`text-sm font-mono font-bold shrink-0 ${can ? 'text-[#00ffff]' : 'text-white/30'}`}>
+            <div className={`text-sm font-mono font-bold shrink-0 ${can ? 'text-[#a855f7]' : 'text-white/30'}`}>
               {formatNumber(cost)}
             </div>
           </button>
@@ -430,7 +474,7 @@ function SabotagePanel({ player, rivals, target, setTarget, cooldowns, settings 
                 <CursorMini skinId={r.skinId} size={18} />
                 <span className="font-bold text-white truncate">{r.name}</span>
               </div>
-              <div className="text-[#00ffff] font-mono text-[10px] mt-1">{formatNumber(r.total)}</div>
+              <div className="text-[#a855f7] font-mono text-[10px] mt-1">{formatNumber(r.total)}</div>
             </button>
           ))}
         </div>

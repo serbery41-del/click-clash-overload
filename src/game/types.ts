@@ -1,5 +1,6 @@
 export type GoalType = 'firstToValue' | 'timedSprint';
 export type StakeMode = 'friendly' | 'chaos';
+export type TeamId = 'purple' | 'pink' | 'green' | 'orange' | 'none';
 export type Difficulty = 'sprint' | 'marathon' | 'endurance' | 'custom';
 export type DeviceMode = 'phone' | 'pc';
 export type GamePhase = 'deviceSelect' | 'menu' | 'skins' | 'joinRoom' | 'lobby' | 'waiting' | 'playing' | 'finished';
@@ -37,6 +38,12 @@ export interface LobbySettings {
   startingClickPower: number;
   showLeaderboard: boolean;
   showFeed: boolean;
+  teamsEnabled: boolean;
+  chaosEventsEnabled: boolean;
+  chaosInterval: number;
+  antiCheatEnabled: boolean;
+  antiCheatCpsThreshold: number;
+  antiCheatFreezeSeconds: number;
 }
 
 export interface ShopItem {
@@ -79,6 +86,8 @@ export interface PlayerState {
   color: string;
   skinId: SkinId;
   ready: boolean;
+  team: TeamId;
+  cheatLockedUntil?: number;
 }
 
 export interface ActiveSabotage {

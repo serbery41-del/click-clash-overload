@@ -58,8 +58,8 @@ export default function JoinRoom() {
           ) : 'Join Game'}
         </button>
 
-        <div className="bg-[#00ffff]/10 border border-[#00ffff]/20 rounded-xl p-4 text-center">
-          <p className="text-xs text-[#00ffff]/70">
+        <div className="bg-[#a855f7]/10 border border-[#a855f7]/20 rounded-xl p-4 text-center">
+          <p className="text-xs text-[#a855f7]/70">
             Ask the host for their 6-character room code
           </p>
         </div>
