@@ -118,14 +118,26 @@ export function getSkin(id: SkinId): Skin {
   return SKINS.find(s => s.id === id) || SKINS[0];
 }
 
+const CURSOR_STYLE_ID = '__cc_cursor_style';
+
 export function applyCursor(skinId: SkinId) {
   const skin = getSkin(skinId);
-  if (skin.cursorData) {
-    document.body.style.cursor = `url("${skin.cursorData}") 4 4, auto`;
+  if (!skin.cursorData) return;
+  const [hx, hy] = CURSOR_HOTSPOTS[skinId] ?? [4, 4];
+  const rule = `*, *::before, *::after { cursor: url("${skin.cursorData}") ${hx} ${hy}, auto !important; }`;
+  let el = document.getElementById(CURSOR_STYLE_ID) as HTMLStyleElement | null;
+  if (!el) {
+    el = document.createElement('style');
+    el.id = CURSOR_STYLE_ID;
+    document.head.appendChild(el);
   }
+  el.textContent = rule;
+  document.body.style.cursor = `url("${skin.cursorData}") ${hx} ${hy}, auto`;
 }
 
 export function resetCursor() {
+  const el = document.getElementById(CURSOR_STYLE_ID);
+  if (el) el.remove();
   document.body.style.cursor = 'auto';
 }
 
