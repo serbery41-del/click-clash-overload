@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 import { GamePhase, DeviceMode, LobbySettings, PlayerState, FeedEntry, SkinId } from './types';
-import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream } from './gameData';
+import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream, CHAOS_EVENTS, ChaosEventId } from './gameData';
 import * as mp from './multiplayer';
 
 let syncTimer: any = null;
+let chaosTimer: any = null;
 
 function mkPlayer(id: string, name: string, local: boolean, host: boolean, skin: SkinId): PlayerState {
   return {
     id, name, visId: skin, total: 0, clickPower: 1, cps: 0, investRate: 0, multiplier: 1,
     itemsOwned: {}, isLocal: local, isHost: host,
     sabotagesDealt: 0, totalClicks: 0, lastClickTime: 0,
-    activeSabotages: [], color: mp.playerColor(id), skinId: skin, ready: local,
+    activeSabotages: [], color: mp.playerColor(id), skinId: skin, ready: local, team: 'none',
   };
 }
 
