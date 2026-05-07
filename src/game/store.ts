@@ -349,6 +349,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     list[idx] = { ...me, total: me.total - cost, sabotagesDealt: me.sabotagesDealt + 1 };
     set({ players: list, sabotageCooldowns: { ...st.sabotageCooldowns, [sabId]: Date.now() + sab.cooldown * 1000 } });
     get().addFeed(me.name + ' used ' + sab.name + '!', 'sabotage');
+    playSabotageSfx();
     mp.send('sab', { sabId, targetId, fromName: me.name });
   },
 
