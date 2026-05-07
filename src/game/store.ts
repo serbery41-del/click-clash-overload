@@ -309,6 +309,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (st.activeChaos && st.chaosEndsAt > now) {
       if (st.activeChaos === 'doubleClick') v *= 2;
       else if (st.activeChaos === 'frenzy') v *= 1.5;
+      else if (st.activeChaos === 'powerSurge') v *= 3;
     }
     const np = [...st.players];
     np[idx] = { ...p, total: p.total + v, totalClicks: p.totalClicks + 1, lastClickTime: now };
@@ -396,6 +397,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set(s => ({ players: s.players.map(p => p.id === leader.id ? { ...p, total: p.total * 0.95 } : p) }));
       }
     }
+    if (ev.id === 'meteor') {
+      set(s => ({ players: s.players.map(p => p.id === s.myId ? { ...p, total: p.total * 0.9 } : p) }));
+    }
+    if (ev.id === 'bonusRain') {
+      set(s => ({ players: s.players.map(p => p.id === s.myId ? { ...p, total: p.total * 1.15 } : p) }));
+    }
     if (st.isHost) mp.send('chaos', { id: ev.id });
   },
 
@@ -411,7 +418,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
       get().triggerFoxy();
     }
 
-    const autoBoost = (st.activeChaos === 'autoBoost' && st.chaosEndsAt > Date.now()) ? 2 : 1;
+    let autoMul = 1;
+    if (st.activeChaos && st.chaosEndsAt > Date.now()) {
+      if (st.activeChaos === 'autoBoost') autoMul = 2;
+      else if (st.activeChaos === 'goldRush') autoMul = 3;
+      else if (st.activeChaos === 'marketDip') autoMul = 0.5;
+    }
+    const autoBoost = autoMul;
     const list = st.players.map(p => {
       if (p.id !== st.myId) return p;
       const u = { ...p };

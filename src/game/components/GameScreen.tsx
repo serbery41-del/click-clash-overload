@@ -133,7 +133,7 @@ export default function GameScreen() {
       {/* CHAOS event banner */}
       {activeChaos && chaosEndsAt > Date.now() && !goldenFreddyActive && (
         <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[80] bg-gradient-to-r from-yellow-500/90 to-red-500/90 px-6 py-2 rounded-full border-2 border-yellow-300 font-black text-black uppercase tracking-wider text-sm animate-pulse">
-          ⚡ {activeChaos === 'doubleClick' ? 'DOUBLE CLICK' : activeChaos === 'priceCrash' ? 'PRICE CRASH -30%' : activeChaos === 'autoBoost' ? 'AUTO OVERDRIVE' : activeChaos === 'frenzy' ? 'CLICK FRENZY' : activeChaos === 'blackout' ? 'BLACKOUT' : activeChaos === 'taxStorm' ? 'TAX STORM' : 'CHAOS'}
+          ⚡ {activeChaos === 'doubleClick' ? 'DOUBLE CLICK' : activeChaos === 'priceCrash' ? 'PRICE CRASH -30%' : activeChaos === 'autoBoost' ? 'AUTO OVERDRIVE' : activeChaos === 'frenzy' ? 'CLICK FRENZY' : activeChaos === 'blackout' ? 'BLACKOUT' : activeChaos === 'taxStorm' ? 'TAX STORM' : activeChaos === 'meteor' ? 'METEOR STRIKE -10%' : activeChaos === 'goldRush' ? 'GOLD RUSH x3' : activeChaos === 'powerSurge' ? 'POWER SURGE x3' : activeChaos === 'marketDip' ? 'MARKET DIP /2' : activeChaos === 'bonusRain' ? 'BONUS RAIN +15%' : 'CHAOS'}
         </div>
       )}
 
