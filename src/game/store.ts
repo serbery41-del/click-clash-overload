@@ -420,11 +420,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const sorted = [...list].sort((a, b) => b.total - a.total);
       set({ winnerId: sorted[0].id, phase: 'finished' });
       get().addFeed(sorted[0].name + ' wins!', 'system');
+      playWinSfx();
       return;
     }
     if (st.settings.goalType === 'firstToValue') {
       const w = list.find(p => p.total >= st.settings.targetValue);
-      if (w) { set({ winnerId: w.id, phase: 'finished' }); get().addFeed(w.name + ' reached the goal!', 'system'); }
+      if (w) { set({ winnerId: w.id, phase: 'finished' }); get().addFeed(w.name + ' reached the goal!', 'system'); playWinSfx(); }
     }
   },
 
