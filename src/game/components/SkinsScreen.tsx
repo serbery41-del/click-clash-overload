@@ -110,7 +110,7 @@ export default function SkinsScreen() {
           })}
         </div>
 
-        {!secretUnlocked && (
+        {!allUnlocked && (
           <div className="mt-6">
             {!showSecret ? (
               <button onClick={() => setShowSecret(true)} className="w-full py-3 text-white/20 hover:text-white/40 text-xs transition-colors">
@@ -125,7 +125,9 @@ export default function SkinsScreen() {
                   placeholder="Enter secret code..."
                   className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#a855f7] transition-colors"
                 />
-                <p className="text-white/30 text-xs text-center">Hint: A famous open-source mascot 🐧</p>
+                {unlockMsg
+                  ? <p className="text-green-400 text-xs text-center font-bold">{unlockMsg}</p>
+                  : <p className="text-white/30 text-xs text-center">Hints: 🐧 mascot · 🪟 OS · 🍎 fruit</p>}
               </div>
             )}
           </div>
