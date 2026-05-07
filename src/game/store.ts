@@ -370,8 +370,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().addFeed('CHAOS: ' + ev.name + ' — ' + ev.message, 'system');
     if (ev.id === 'goldenFreddy') {
       set({ goldenFreddyActive: true });
-      try { playFoxyScream(); } catch (_) {}
+      try { playGoldenFreddySfx(); } catch (_) {}
       setTimeout(() => set({ goldenFreddyActive: false }), ev.duration * 1000);
+    } else {
+      try { playChaosSfx(); } catch (_) {}
     }
     if (ev.id === 'taxStorm') {
       const sorted = [...st.players].sort((a, b) => b.total - a.total);
