@@ -148,8 +148,8 @@ export default function GameScreen() {
       )}
 
       {/* Room Code - Top Right */}
-      <div className="absolute top-3 right-3 z-50 bg-black/80 border border-[#00ffff]/40 rounded-lg px-3 py-1.5 backdrop-blur-sm">
-        <div className="text-[8px] text-[#00ffff] uppercase tracking-wider">Room</div>
+      <div className="absolute top-3 right-3 z-50 bg-black/80 border border-[#a855f7]/40 rounded-lg px-3 py-1.5 backdrop-blur-sm">
+        <div className="text-[8px] text-[#a855f7] uppercase tracking-wider">Room</div>
         <div className="text-sm font-mono font-black text-white tracking-wider">{settings.roomCode}</div>
       </div>
 
@@ -157,27 +157,27 @@ export default function GameScreen() {
       <div className={`flex flex-col ${isPhone ? 'flex-1 min-h-0' : 'flex-1'}`}>
         {/* Top bar */}
         {settings.showLeaderboard && (
-          <div className="shrink-0 border-b border-[#00ffff]/20 bg-black/50 backdrop-blur-sm">
+          <div className="shrink-0 border-b border-[#a855f7]/20 bg-black/50 backdrop-blur-sm">
             <div className="flex items-center gap-2 px-3 py-2 overflow-x-auto pr-24">
               <div className="shrink-0 text-sm font-mono font-bold mr-2">
                 {settings.goalType === 'timedSprint' ? (
                   <span className="text-[#ff0080]">{fmtTime(timeRemaining)}</span>
                 ) : (
-                  <span className="text-[#00ffff]">{formatNumber(settings.targetValue)}</span>
+                  <span className="text-[#a855f7]">{formatNumber(settings.targetValue)}</span>
                 )}
               </div>
               {sorted.map((p, i) => (
                 <div key={p.id} className={`shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs transition-all ${
                   p.id === myId 
-                    ? 'bg-gradient-to-r from-[#00ffff]/20 to-[#ff0080]/20 border border-[#00ffff]/40' 
+                    ? 'bg-gradient-to-r from-[#a855f7]/20 to-[#ff0080]/20 border border-[#a855f7]/40' 
                     : 'bg-white/5'
                 }`}>
-                  <span className={`font-mono text-[10px] font-black ${i === 0 ? 'text-[#00ffff]' : i === 1 ? 'text-white' : i === 2 ? 'text-[#ff0080]' : 'text-white/40'}`}>
+                  <span className={`font-mono text-[10px] font-black ${i === 0 ? 'text-[#a855f7]' : i === 1 ? 'text-white' : i === 2 ? 'text-[#ff0080]' : 'text-white/40'}`}>
                     {i + 1}
                   </span>
                   <CursorMini skinId={p.skinId} size={14} />
                   <span className="font-medium truncate max-w-[50px]">{p.name}</span>
-                  <span className="font-mono text-[10px] text-[#00ffff]">{formatNumber(p.total)}</span>
+                  <span className="font-mono text-[10px] text-[#a855f7]">{formatNumber(p.total)}</span>
                 </div>
               ))}
             </div>
@@ -193,7 +193,7 @@ export default function GameScreen() {
                           className="h-full rounded-full transition-all duration-300 ease-out" 
                           style={{ 
                             width: `${pct}%`, 
-                            background: p.id === myId ? 'linear-gradient(90deg, #00ffff, #ff0080)' : p.color
+                            background: p.id === myId ? 'linear-gradient(90deg, #a855f7, #ff0080)' : p.color
                           }} 
                         />
                       </div>
@@ -211,7 +211,7 @@ export default function GameScreen() {
           {/* Stats */}
           <div className="flex gap-6 mb-5 flex-wrap justify-center">
             <StatBlock label="Total" value={formatNumber(human.total)} color="text-white" />
-            <StatBlock label="Click" value={formatNumber(human.clickPower * human.multiplier)} color="text-[#00ffff]" />
+            <StatBlock label="Click" value={formatNumber(human.clickPower * human.multiplier)} color="text-[#a855f7]" />
             <StatBlock label="Auto" value={formatNumber(human.cps * human.multiplier * (isFrozen ? 0 : 1))} color="text-[#ff0080]" />
             {human.investRate > 0 && <StatBlock label="Invest" value={`${(human.investRate * 100).toFixed(2)}%/s`} color="text-green-400" />}
             {!isPhone && <StatBlock label="CPM" value={String(cpm)} color="text-white/60" />}
@@ -240,7 +240,7 @@ export default function GameScreen() {
               className={`
                 relative rounded-full transition-transform duration-75 select-none cursor-pointer
                 active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed
-                bg-gradient-to-br from-[#00ffff] via-[#00cccc] to-[#ff0080] text-black font-black
+                bg-gradient-to-br from-[#a855f7] via-[#9333ea] to-[#ff0080] text-black font-black
                 glow-pulse
                 ${isPhone ? 'w-40 h-40' : 'w-52 h-52'}
                 ${shaking ? 'scale-95' : ''}
@@ -253,7 +253,7 @@ export default function GameScreen() {
               </span>
               <div className="absolute inset-0 rounded-full border-4 border-white/30 pulse-ring" />
               {particles.map(p => (
-                <span key={p.id} className="click-num absolute text-base font-black text-[#00ffff] z-20 drop-shadow-[0_0_10px_rgba(0,255,255,0.8)]" style={{ left: p.x, top: p.y }}>
+                <span key={p.id} className="click-num absolute text-base font-black text-[#a855f7] z-20 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]" style={{ left: p.x, top: p.y }}>
                   +{formatNumber(p.value)}
                 </span>
               ))}
@@ -266,7 +266,7 @@ export default function GameScreen() {
           </div>
 
           {human.multiplier > 1 && (
-            <div className="mt-4 text-sm text-[#00ffff] font-mono font-bold bg-[#00ffff]/10 px-4 py-2 rounded-full border border-[#00ffff]/30">
+            <div className="mt-4 text-sm text-[#a855f7] font-mono font-bold bg-[#a855f7]/10 px-4 py-2 rounded-full border border-[#a855f7]/30">
               {human.multiplier.toFixed(2)}x MULTIPLIER
             </div>
           )}
@@ -281,10 +281,10 @@ export default function GameScreen() {
       </div>
 
       {/* ── RIGHT / BOTTOM: Shop panel ── */}
-      <div className={`${isPhone ? 'h-[50%] border-t' : 'w-80 lg:w-96 border-l'} border-[#00ffff]/20 flex flex-col bg-black/50 backdrop-blur-sm shrink-0`}>
+      <div className={`${isPhone ? 'h-[50%] border-t' : 'w-80 lg:w-96 border-l'} border-[#a855f7]/20 flex flex-col bg-black/50 backdrop-blur-sm shrink-0`}>
         {/* Tab bar */}
         <div className="flex shrink-0 border-b border-white/10">
-          <button onClick={() => setTab('shop')} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition ${tab === 'shop' ? 'text-[#00ffff] border-b-2 border-[#00ffff]' : 'text-white/40 hover:text-white/60'}`}>
+          <button onClick={() => setTab('shop')} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition ${tab === 'shop' ? 'text-[#a855f7] border-b-2 border-[#a855f7]' : 'text-white/40 hover:text-white/60'}`}>
             Shop
           </button>
           {settings.sabotagesEnabled && (
@@ -300,7 +300,7 @@ export default function GameScreen() {
             <div>
               <div className="flex border-b border-white/5 px-1 sticky top-0 bg-black/90 z-10 backdrop-blur-sm">
                 {([
-                  { key: 'click' as const, label: 'Click', color: 'text-[#00ffff]' },
+                  { key: 'click' as const, label: 'Click', color: 'text-[#a855f7]' },
                   { key: 'auto' as const, label: 'Auto', color: 'text-[#ff0080]' },
                   { key: 'invest' as const, label: 'Invest', color: 'text-green-400' },
                   { key: 'special' as const, label: 'Mix', color: 'text-yellow-400' },
@@ -324,7 +324,7 @@ export default function GameScreen() {
           <div className="border-t border-white/10 max-h-20 overflow-y-auto page-scroll px-3 py-1.5 shrink-0 bg-black/50">
             {feed.slice(0, 6).map(f => (
               <div key={f.id} className={`feed-slide text-[10px] py-0.5 truncate ${
-                f.type === 'sabotage' ? 'text-[#ff0080]' : f.type === 'purchase' ? 'text-[#00ffff]' : 'text-white/40'
+                f.type === 'sabotage' ? 'text-[#ff0080]' : f.type === 'purchase' ? 'text-[#a855f7]' : 'text-white/40'
               }`}>{f.message}</div>
             ))}
           </div>
@@ -356,7 +356,7 @@ function ShopList({ player, category, hasInflation, settings, players }: {
   const growthMod = settings.costGrowthRate / 100;
   
   const catColors: Record<string, string> = {
-    click: 'from-[#00ffff]/20 to-[#00ffff]/5',
+    click: 'from-[#a855f7]/20 to-[#a855f7]/5',
     auto: 'from-[#ff0080]/20 to-[#ff0080]/5',
     invest: 'from-green-500/20 to-green-500/5',
     special: 'from-yellow-500/20 to-yellow-500/5',
@@ -375,7 +375,7 @@ function ShopList({ player, category, hasInflation, settings, players }: {
         </div>
       )}
       {discount < 1 && (
-        <div className="px-3 py-2 bg-[#00ffff]/20 border border-[#00ffff]/30 rounded-lg text-xs text-[#00ffff] text-center font-bold">
+        <div className="px-3 py-2 bg-[#a855f7]/20 border border-[#a855f7]/30 rounded-lg text-xs text-[#a855f7] text-center font-bold">
           CATCH-UP: -{settings.catchUpPercent}% costs
         </div>
       )}
@@ -399,11 +399,11 @@ function ShopList({ player, category, hasInflation, settings, players }: {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-white truncate">{item.name}</span>
-                {owned > 0 && <span className="text-[10px] text-[#00ffff] ml-1 shrink-0">x{owned}</span>}
+                {owned > 0 && <span className="text-[10px] text-[#a855f7] ml-1 shrink-0">x{owned}</span>}
               </div>
               <div className="text-[10px] text-white/40">{item.description}</div>
             </div>
-            <div className={`text-sm font-mono font-bold shrink-0 ${can ? 'text-[#00ffff]' : 'text-white/30'}`}>
+            <div className={`text-sm font-mono font-bold shrink-0 ${can ? 'text-[#a855f7]' : 'text-white/30'}`}>
               {formatNumber(cost)}
             </div>
           </button>
@@ -430,7 +430,7 @@ function SabotagePanel({ player, rivals, target, setTarget, cooldowns, settings 
                 <CursorMini skinId={r.skinId} size={18} />
                 <span className="font-bold text-white truncate">{r.name}</span>
               </div>
-              <div className="text-[#00ffff] font-mono text-[10px] mt-1">{formatNumber(r.total)}</div>
+              <div className="text-[#a855f7] font-mono text-[10px] mt-1">{formatNumber(r.total)}</div>
             </button>
           ))}
         </div>

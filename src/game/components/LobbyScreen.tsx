@@ -11,8 +11,8 @@ export default function LobbyScreen() {
     <div className="min-h-screen bg-main page-scroll">
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-4 pb-28">
         {/* Room Code - Fixed Top Right */}
-        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-[#00ffff]/20 to-[#ff0080]/20 border-2 border-[#00ffff]/50 rounded-xl px-5 py-3 text-center backdrop-blur-sm shadow-[0_0_30px_rgba(0,255,255,0.2)]">
-          <div className="text-[10px] text-[#00ffff] uppercase font-bold tracking-wider">Room Code</div>
+        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-[#a855f7]/20 to-[#ff0080]/20 border-2 border-[#a855f7]/50 rounded-xl px-5 py-3 text-center backdrop-blur-sm shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+          <div className="text-[10px] text-[#a855f7] uppercase font-bold tracking-wider">Room Code</div>
           <div className="text-2xl font-mono font-black text-white tracking-[0.2em]">{settings.roomCode}</div>
         </div>
 
@@ -30,14 +30,14 @@ export default function LobbyScreen() {
         {/* Your profile */}
         <Section title="Your Profile" color="cyan">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#00ffff]/30 to-[#ff0080]/30 flex items-center justify-center border border-white/20">
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#a855f7]/30 to-[#ff0080]/30 flex items-center justify-center border border-white/20">
               <CursorIcon skinId={selectedSkin} size={40} />
             </div>
             <div>
               <div className="text-white font-bold text-lg">{playerName || 'Host'}</div>
-              <button onClick={() => setPhase('skins')} className="text-[#00ffff] text-xs hover:text-[#00ffff]/70 transition">Change skin</button>
+              <button onClick={() => setPhase('skins')} className="text-[#a855f7] text-xs hover:text-[#a855f7]/70 transition">Change skin</button>
             </div>
-            <div className="ml-auto text-[#00ffff] text-xs font-bold uppercase bg-[#00ffff]/10 px-2 py-1 rounded">Host</div>
+            <div className="ml-auto text-[#a855f7] text-xs font-bold uppercase bg-[#a855f7]/10 px-2 py-1 rounded">Host</div>
           </div>
         </Section>
 
@@ -48,7 +48,7 @@ export default function LobbyScreen() {
               <div key={p.id} className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
                 <CursorIcon skinId={p.skinId} size={20} />
                 <span className="text-white text-sm font-medium">{p.name}</span>
-                {p.isHost && <span className="text-[#00ffff] text-[10px] font-bold">HOST</span>}
+                {p.isHost && <span className="text-[#a855f7] text-[10px] font-bold">HOST</span>}
               </div>
             ))}
             {players.length < settings.maxPlayers && (
@@ -100,8 +100,8 @@ export default function LobbyScreen() {
         {settings.goalType === 'timedSprint' && (
           <Section title="Time Limit" color="cyan">
             <div className="flex items-center gap-4">
-              <input type="range" min={30} max={3600} step={30} value={settings.timeLimit} onChange={e => updateSettings({ timeLimit: Number(e.target.value) })} className="flex-1 accent-[#00ffff]" />
-              <span className="text-[#00ffff] font-mono font-bold text-xl w-20 text-right">{Math.floor(settings.timeLimit / 60)}:{(settings.timeLimit % 60).toString().padStart(2, '0')}</span>
+              <input type="range" min={30} max={3600} step={30} value={settings.timeLimit} onChange={e => updateSettings({ timeLimit: Number(e.target.value) })} className="flex-1 accent-[#a855f7]" />
+              <span className="text-[#a855f7] font-mono font-bold text-xl w-20 text-right">{Math.floor(settings.timeLimit / 60)}:{(settings.timeLimit % 60).toString().padStart(2, '0')}</span>
             </div>
           </Section>
         )}
@@ -178,7 +178,7 @@ export default function LobbyScreen() {
         <div className="max-w-2xl mx-auto">
           <button
             onClick={startGame}
-            className="w-full py-4 bg-gradient-to-r from-[#00ffff] via-[#00dddd] to-[#ff0080] text-black font-black text-lg rounded-xl hover:brightness-110 transition-all active:scale-[0.98] transform shadow-[0_0_40px_rgba(0,255,255,0.4)]"
+            className="w-full py-4 bg-gradient-to-r from-[#a855f7] via-[#c084fc] to-[#ff0080] text-black font-black text-lg rounded-xl hover:brightness-110 transition-all active:scale-[0.98] transform shadow-[0_0_40px_rgba(168,85,247,0.4)]"
           >
             START MATCH
           </button>
@@ -189,8 +189,8 @@ export default function LobbyScreen() {
 }
 
 function Section({ title, children, color }: { title: string; children: React.ReactNode; color: 'cyan' | 'pink' }) {
-  const borderColor = color === 'cyan' ? 'border-[#00ffff]/20' : 'border-[#ff0080]/20';
-  const titleColor = color === 'cyan' ? 'text-[#00ffff]' : 'text-[#ff0080]';
+  const borderColor = color === 'cyan' ? 'border-[#a855f7]/20' : 'border-[#ff0080]/20';
+  const titleColor = color === 'cyan' ? 'text-[#a855f7]' : 'text-[#ff0080]';
   return (
     <div className="space-y-2">
       <h2 className={`text-xs font-bold ${titleColor} uppercase tracking-wider`}>{title}</h2>
@@ -201,9 +201,9 @@ function Section({ title, children, color }: { title: string; children: React.Re
 
 function Selector({ selected, onClick, label, desc, color, small }: { selected: boolean; onClick: () => void; label: string; desc: string; color: 'cyan' | 'pink'; small?: boolean }) {
   const activeClass = color === 'cyan' 
-    ? 'border-[#00ffff]/60 bg-[#00ffff]/15 shadow-[0_0_15px_rgba(0,255,255,0.2)]' 
+    ? 'border-[#a855f7]/60 bg-[#a855f7]/15 shadow-[0_0_15px_rgba(168,85,247,0.2)]' 
     : 'border-[#ff0080]/60 bg-[#ff0080]/15 shadow-[0_0_15px_rgba(255,0,128,0.2)]';
-  const textColor = color === 'cyan' ? 'text-[#00ffff]' : 'text-[#ff0080]';
+  const textColor = color === 'cyan' ? 'text-[#a855f7]' : 'text-[#ff0080]';
   return (
     <button onClick={onClick} className={`${small ? 'p-2.5' : 'p-4'} rounded-xl border-2 text-left transition-all ${selected ? activeClass : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05]'}`}>
       <div className={`font-bold ${small ? 'text-xs' : 'text-sm'} ${selected ? textColor : 'text-white'}`}>{label}</div>
@@ -213,7 +213,7 @@ function Selector({ selected, onClick, label, desc, color, small }: { selected: 
 }
 
 function Toggle({ label, desc, checked, onChange, color }: { label: string; desc: string; checked: boolean; onChange: (v: boolean) => void; color: 'cyan' | 'pink' }) {
-  const bgColor = color === 'cyan' ? 'bg-[#00ffff]' : 'bg-[#ff0080]';
+  const bgColor = color === 'cyan' ? 'bg-[#a855f7]' : 'bg-[#ff0080]';
   return (
     <button onClick={() => onChange(!checked)} className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.03] transition">
       <div className="text-left">
@@ -234,7 +234,7 @@ function SliderSetting({ label, value, min, max, unit, onChange }: { label: stri
         <span className="text-white/50">{label}</span>
         <span className="text-white font-mono font-bold">{value}{unit}</span>
       </div>
-      <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full accent-[#00ffff] h-1" />
+      <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full accent-[#a855f7] h-1" />
     </div>
   );
 }

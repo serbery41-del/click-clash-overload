@@ -46,7 +46,7 @@ export function close() {
 }
 
 export function playerColor(id: string): string {
-  const c = ['#00ffff','#ff0080','#00ff88','#ffaa00','#ff4444','#aa66ff','#00aaff','#ff6600','#44ffaa','#ff2266','#8855ff','#00ddff'];
+  const c = ['#a855f7','#ff0080','#00ff88','#ffaa00','#ff4444','#aa66ff','#7c3aed','#ff6600','#44ffaa','#ff2266','#8855ff','#c084fc'];
   let h = 0;
   for (let i = 0; i < id.length; i++) h = ((h << 5) - h + id.charCodeAt(i)) | 0;
   return c[Math.abs(h) % c.length];

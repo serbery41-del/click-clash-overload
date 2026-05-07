@@ -8,7 +8,7 @@ export default function DeviceSelect() {
       <div className="max-w-md w-full space-y-8 text-center">
         <div>
           <h1 className="text-4xl font-black">
-            <span className="text-[#00ffff]">Clicker</span>
+            <span className="text-[#a855f7]">Clicker</span>
             <span className="text-[#ff0080]">Clash</span>
           </h1>
           <p className="text-white/40 text-sm mt-2">Select your device</p>
@@ -17,17 +17,17 @@ export default function DeviceSelect() {
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={() => setDeviceMode('phone')}
-            className="group flex flex-col items-center gap-4 p-8 rounded-2xl border-2 border-[#00ffff]/30 bg-[#00ffff]/5 hover:border-[#00ffff] hover:bg-[#00ffff]/15 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)] transition-all duration-200"
+            className="group flex flex-col items-center gap-4 p-8 rounded-2xl border-2 border-[#a855f7]/30 bg-[#a855f7]/5 hover:border-[#a855f7] hover:bg-[#a855f7]/15 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-200"
           >
-            <div className="w-16 h-16 rounded-xl bg-[#00ffff]/20 group-hover:bg-[#00ffff]/30 flex items-center justify-center transition-colors">
-              <svg className="w-8 h-8 text-[#00ffff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="w-16 h-16 rounded-xl bg-[#a855f7]/20 group-hover:bg-[#a855f7]/30 flex items-center justify-center transition-colors">
+              <svg className="w-8 h-8 text-[#a855f7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <rect x="5" y="2" width="14" height="20" rx="3" />
                 <line x1="12" y1="18" x2="12" y2="18.01" strokeWidth={2} strokeLinecap="round" />
               </svg>
             </div>
             <div>
               <div className="font-bold text-white text-lg">Phone</div>
-              <div className="text-[#00ffff]/60 text-xs mt-1">Tap controls</div>
+              <div className="text-[#a855f7]/60 text-xs mt-1">Tap controls</div>
             </div>
           </button>
 

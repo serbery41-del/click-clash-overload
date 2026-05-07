@@ -104,8 +104,8 @@ export const DIFFICULTY_PRESETS: Record<string, Partial<LobbySettings>> = {
 };
 
 export const PLAYER_COLORS = [
-  '#00ffff', '#ff0080', '#00ff88', '#ffaa00', '#ff4444', '#aa66ff',
-  '#00aaff', '#ff6600', '#44ffaa', '#ff2266', '#8855ff', '#00ddff',
+  '#a855f7', '#ff0080', '#00ff88', '#ffaa00', '#ff4444', '#aa66ff',
+  '#7c3aed', '#ff6600', '#44ffaa', '#ff2266', '#8855ff', '#c084fc',
 ];
 
 export function getItemCost(item: ShopItem, owned: number, growthMod: number = 1): number {

@@ -162,14 +162,14 @@ body {
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.3); border-radius: 9px; }
+::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.3); border-radius: 9px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 0, 128, 0.5); }
 
 /* Main bright colors */
 :root {
-  --cyan: #00ffff;
+  --cyan: #a855f7;
   --pink: #ff0080;
-  --cyan-dim: rgba(0, 255, 255, 0.15);
+  --cyan-dim: rgba(168, 85, 247, 0.15);
   --pink-dim: rgba(255, 0, 128, 0.15);
 }
 
@@ -190,8 +190,8 @@ body {
   50% { opacity: 0.5; }
 }
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(255, 0, 128, 0.2); }
-  50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), 0 0 60px rgba(255, 0, 128, 0.4); }
+  0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), 0 0 40px rgba(255, 0, 128, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.6), 0 0 60px rgba(255, 0, 128, 0.4); }
 }
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
@@ -243,20 +243,20 @@ body {
 }
 
 .text-cyan {
-  color: #00ffff;
+  color: #a855f7;
 }
 .text-pink {
   color: #ff0080;
 }
 .border-cyan {
-  border-color: rgba(0, 255, 255, 0.4);
+  border-color: rgba(168, 85, 247, 0.4);
 }
 .border-pink {
   border-color: rgba(255, 0, 128, 0.4);
 }
 .bg-cyan-glow {
-  background: rgba(0, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+  background: rgba(168, 85, 247, 0.1);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
 }
 .bg-pink-glow {
   background: rgba(255, 0, 128, 0.1);

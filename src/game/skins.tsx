@@ -40,7 +40,7 @@ const CURSOR_SVGS: Record<SkinId, string> = {
   classic: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="white" stroke="black" stroke-width="1.5"/></svg>`,
   mint: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="#87cf3e" stroke="#1a472a" stroke-width="1.5"/></svg>`,
   retro: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><rect x="1" y="1" width="2" height="12" fill="#ffcc00"/><rect x="3" y="3" width="2" height="8" fill="#cc6600"/><rect x="5" y="5" width="4" height="4" fill="#ffcc00"/><rect x="7" y="7" width="4" height="4" fill="#cc6600"/></svg>`,
-  neon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><defs><filter id="g"><feGaussianBlur stdDeviation="1"/></filter></defs><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="none" stroke="#ff00ff" stroke-width="2" filter="url(#g)"/><path d="M6 6L6 14L9 11" stroke="#00ffff" stroke-width="1.5"/></svg>`,
+  neon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><defs><filter id="g"><feGaussianBlur stdDeviation="1"/></filter></defs><path d="M4 2L4 20L8.5 15.5L12 22L15 20.5L11.5 14L18 14L4 2Z" fill="none" stroke="#ff00ff" stroke-width="2" filter="url(#g)"/><path d="M6 6L6 14L9 11" stroke="#a855f7" stroke-width="1.5"/></svg>`,
   tux: TUX_SVG,
 };
 
@@ -70,7 +70,7 @@ export const SKINS: Skin[] = [
     id: 'neon',
     name: 'Neon',
     description: 'Cyberpunk glow',
-    colors: { primary: '#ff00ff', secondary: '#00ffff' },
+    colors: { primary: '#ff00ff', secondary: '#a855f7' },
     cursorData: `data:image/svg+xml,${encodeURIComponent(CURSOR_SVGS.neon)}`,
   },
   {

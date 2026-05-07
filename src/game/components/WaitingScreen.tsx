@@ -14,14 +14,14 @@ export default function WaitingScreen() {
 
       <div className="max-w-md w-full space-y-8 text-center">
         <div className="space-y-2">
-          <div className="w-20 h-20 rounded-2xl mx-auto bg-gradient-to-br from-[#00ffff]/30 to-[#ff0080]/30 flex items-center justify-center glow-pulse">
+          <div className="w-20 h-20 rounded-2xl mx-auto bg-gradient-to-br from-[#a855f7]/30 to-[#ff0080]/30 flex items-center justify-center glow-pulse">
             <CursorIcon skinId={selectedSkin} size={48} />
           </div>
           <h1 className="text-2xl font-black text-white">{playerName || 'Player'}</h1>
         </div>
 
-        <div className="bg-gradient-to-r from-[#00ffff]/10 to-[#ff0080]/10 border border-[#00ffff]/30 rounded-2xl p-6">
-          <div className="text-xs text-[#00ffff] uppercase tracking-wider font-bold mb-2">Room Code</div>
+        <div className="bg-gradient-to-r from-[#a855f7]/10 to-[#ff0080]/10 border border-[#a855f7]/30 rounded-2xl p-6">
+          <div className="text-xs text-[#a855f7] uppercase tracking-wider font-bold mb-2">Room Code</div>
           <div className="text-4xl font-mono font-black text-white tracking-wider">{settings.roomCode}</div>
         </div>
 
@@ -42,7 +42,7 @@ export default function WaitingScreen() {
               <div key={p.id} className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
                 <CursorIcon skinId={p.skinId} size={18} />
                 <span className="text-white text-sm font-medium">{p.name}</span>
-                {p.isHost && <span className="text-[#00ffff] text-[10px] font-bold">HOST</span>}
+                {p.isHost && <span className="text-[#a855f7] text-[10px] font-bold">HOST</span>}
               </div>
             ))}
           </div>

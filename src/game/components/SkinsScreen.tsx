@@ -42,7 +42,7 @@ export default function SkinsScreen() {
         </div>
 
         {/* System Cursor Toggle */}
-        <div className="bg-gradient-to-r from-[#00ffff]/10 to-[#ff0080]/10 border border-[#00ffff]/30 rounded-xl p-4">
+        <div className="bg-gradient-to-r from-[#a855f7]/10 to-[#ff0080]/10 border border-[#a855f7]/30 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-white font-bold text-sm">Change System Cursor</div>
@@ -50,13 +50,13 @@ export default function SkinsScreen() {
             </div>
             <button
               onClick={() => setCursorEnabled(!cursorEnabled)}
-              className={`w-14 h-8 rounded-full transition-colors relative ${cursorEnabled ? 'bg-[#00ffff]' : 'bg-white/20'}`}
+              className={`w-14 h-8 rounded-full transition-colors relative ${cursorEnabled ? 'bg-[#a855f7]' : 'bg-white/20'}`}
             >
               <div className={`absolute top-1 w-6 h-6 rounded-full shadow transition-all ${cursorEnabled ? 'translate-x-7 bg-black' : 'translate-x-1 bg-white/60'}`} />
             </button>
           </div>
           {cursorEnabled && (
-            <div className="mt-2 text-[10px] text-[#00ffff]/70 bg-[#00ffff]/10 rounded-lg px-2 py-1">
+            <div className="mt-2 text-[10px] text-[#a855f7]/70 bg-[#a855f7]/10 rounded-lg px-2 py-1">
               Note: Cursor change works in browser. For .exe apps, cursor changes require system permissions.
             </div>
           )}
@@ -76,17 +76,17 @@ export default function SkinsScreen() {
                   isSelected
                     ? isTux 
                       ? 'border-yellow-500 bg-yellow-500/15 shadow-[0_0_25px_rgba(245,166,35,0.3)]'
-                      : 'border-[#00ffff] bg-[#00ffff]/15 shadow-[0_0_25px_rgba(0,255,255,0.3)]'
+                      : 'border-[#a855f7] bg-[#a855f7]/15 shadow-[0_0_25px_rgba(168,85,247,0.3)]'
                     : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
                 }`}
               >
                 {isSelected && (
-                  <div className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center ${isTux ? 'bg-yellow-500' : 'bg-[#00ffff]'}`}>
+                  <div className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center ${isTux ? 'bg-yellow-500' : 'bg-[#a855f7]'}`}>
                     <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   </div>
                 )}
                 <div className="flex flex-col items-center gap-3">
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${isTux ? 'bg-gradient-to-br from-yellow-500/30 to-orange-500/30' : 'bg-gradient-to-br from-[#00ffff]/20 to-[#ff0080]/20'}`}>
+                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${isTux ? 'bg-gradient-to-br from-yellow-500/30 to-orange-500/30' : 'bg-gradient-to-br from-[#a855f7]/20 to-[#ff0080]/20'}`}>
                     <CursorIcon skinId={skin.id as SkinId} size={40} />
                   </div>
                   <div className="text-center">
@@ -112,7 +112,7 @@ export default function SkinsScreen() {
                   value={secretCode}
                   onChange={e => handleSecretCheck(e.target.value)}
                   placeholder="Enter secret code..."
-                  className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#00ffff] transition-colors"
+                  className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-2 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#a855f7] transition-colors"
                 />
                 <p className="text-white/30 text-xs text-center">Hint: A famous open-source mascot 🐧</p>
               </div>
@@ -120,13 +120,13 @@ export default function SkinsScreen() {
           </div>
         )}
 
-        <div className="bg-gradient-to-r from-[#00ffff]/10 to-[#ff0080]/10 border border-[#00ffff]/30 rounded-2xl p-5">
+        <div className="bg-gradient-to-r from-[#a855f7]/10 to-[#ff0080]/10 border border-[#a855f7]/30 rounded-2xl p-5">
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[#00ffff]/30 to-[#ff0080]/30 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-[#a855f7]/30 to-[#ff0080]/30 flex items-center justify-center">
               <CursorIcon skinId={selectedSkin} size={56} />
             </div>
             <div>
-              <div className="text-xs text-[#00ffff] uppercase tracking-wider font-bold">Selected</div>
+              <div className="text-xs text-[#a855f7] uppercase tracking-wider font-bold">Selected</div>
               <div className="text-2xl font-black text-white">{SKINS.find(s => s.id === selectedSkin)?.name}</div>
               {selectedSkin === 'tux' && <div className="text-yellow-400 text-xs font-bold mt-1">🐧 Linux Penguin!</div>}
             </div>
@@ -135,7 +135,7 @@ export default function SkinsScreen() {
 
         <button
           onClick={() => setPhase('menu')}
-          className="w-full py-4 bg-gradient-to-r from-[#00ffff] to-[#00cccc] text-black font-bold text-sm rounded-xl hover:brightness-110 transition-all active:scale-[0.98] transform shadow-[0_0_30px_rgba(0,255,255,0.3)]"
+          className="w-full py-4 bg-gradient-to-r from-[#a855f7] to-[#9333ea] text-black font-bold text-sm rounded-xl hover:brightness-110 transition-all active:scale-[0.98] transform shadow-[0_0_30px_rgba(168,85,247,0.3)]"
         >
           Done
         </button>
