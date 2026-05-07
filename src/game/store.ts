@@ -328,6 +328,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const list = [...st.players]; list[idx] = np;
     set({ players: list });
     get().addFeed(p.name + ' bought ' + item.name, 'purchase');
+    playPurchaseSfx();
   },
 
   useSabotage: (sabId, targetId) => {
