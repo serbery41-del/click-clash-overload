@@ -18,7 +18,7 @@ function mkPlayer(id: string, name: string, local: boolean, host: boolean, skin:
 function toSync(p: PlayerState) {
   return { id: p.id, name: p.name, skinId: p.skinId, isHost: p.isHost, total: p.total,
     clickPower: p.clickPower, cps: p.cps, investRate: p.investRate, multiplier: p.multiplier,
-    totalClicks: p.totalClicks, sabotagesDealt: p.sabotagesDealt, color: p.color, itemsOwned: p.itemsOwned };
+    totalClicks: p.totalClicks, sabotagesDealt: p.sabotagesDealt, color: p.color, itemsOwned: p.itemsOwned, team: p.team };
 }
 
 // ── Message handler ──
@@ -202,7 +202,7 @@ const defaultSettings: LobbySettings = {
   smokeDuration: 5, freezeDuration: 5, stunDuration: 3, taxPercent: 10, inflationDuration: 8,
   costGrowthRate: 100, startingClickPower: 1,
   showLeaderboard: true, showFeed: true,
-  teamsEnabled: false, chaosEventsEnabled: true, chaosInterval: 30,
+  teamsEnabled: false, chaosEventsEnabled: false, chaosInterval: 30,
   antiCheatEnabled: true, antiCheatCpsThreshold: 76, antiCheatFreezeSeconds: 35,
 };
 
@@ -265,7 +265,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (!st.isHost) return;
     const cp = st.settings.seedBonus ? st.settings.seedBonusAmount : 0;
     const ck = st.settings.startingClickPower;
-    const np = st.players.map(p => ({ ...p, total: cp, clickPower: ck }));
+    const teams: Array<'purple' | 'pink' | 'green' | 'orange'> = ['purple', 'pink', 'green', 'orange'];
+    const np = st.players.map((p, i) => ({
+      ...p,
+      total: cp,
+      clickPower: ck,
+      team: st.settings.teamsEnabled ? teams[i % teams.length] : 'none' as const,
+    }));
     set({
       phase: 'playing', players: np,
       feed: [{ id: '0', message: 'Race started!', timestamp: Date.now(), type: 'system' as const }],
