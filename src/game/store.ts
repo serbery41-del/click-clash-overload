@@ -430,11 +430,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   resetGame: () => {
     stopSync();
+    stopChaosLoop();
     mp.close();
     set({
       phase: 'menu', players: [], feed: [], winnerId: null,
       timeElapsed: 0, timeRemaining: 0, sabotageCooldowns: {},
       isHost: false, foxyActive: false, debugMsgCount: 0,
+      activeChaos: null, chaosEndsAt: 0, goldenFreddyActive: false,
+      cheatLockedUntil: 0, recentClickTimes: [],
       settings: { ...defaultSettings, roomCode: generateRoomCode() },
     });
   },
