@@ -85,6 +85,11 @@ function onMsg(msg: any) {
       if (!sab) return;
       const dur = getSabotageDuration(sab, s.settings);
       if (d.sabId === 'foxy') s.triggerFoxy();
+      if (d.sabId === 'goldenFreddy') {
+        useGameStore.setState({ goldenFreddyActive: true });
+        try { playGoldenFreddySfx(); } catch (_) {}
+        setTimeout(() => useGameStore.setState({ goldenFreddyActive: false }), dur * 1000);
+      }
       if (d.sabId === 'taxman') {
         const me = s.players.find(p => p.id === s.myId);
         if (me) {
