@@ -101,6 +101,11 @@ function onMsg(msg: any) {
       s.addFeed((d.fromName || '?') + ' used ' + sab.name + ' on you!', 'sabotage');
     }
 
+    // CHAOS: host broadcasts a chaos event
+    if (kind === 'chaos' && d.id && !s.isHost) {
+      s.triggerChaos(d.id);
+    }
+
     // FEED: chat from others
     if (kind === 'feed' && d.msg) {
       s.addFeed(d.msg, d.type || 'system');
