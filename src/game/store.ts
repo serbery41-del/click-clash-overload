@@ -137,6 +137,22 @@ function stopSync() {
   if (syncTimer) { clearInterval(syncTimer); syncTimer = null; }
 }
 
+function startChaosLoop() {
+  stopChaosLoop();
+  const s0 = useGameStore.getState();
+  if (!s0.isHost || !s0.settings.chaosEventsEnabled || s0.settings.stakeMode !== 'chaos') return;
+  const intervalMs = Math.max(5000, s0.settings.chaosInterval * 1000);
+  chaosTimer = setInterval(() => {
+    const s = useGameStore.getState();
+    if (s.phase !== 'playing' || s.winnerId) return;
+    s.triggerChaos();
+  }, intervalMs);
+}
+
+function stopChaosLoop() {
+  if (chaosTimer) { clearInterval(chaosTimer); chaosTimer = null; }
+}
+
 // ── Store ──
 interface GameStore {
   phase: GamePhase; deviceMode: DeviceMode; settings: LobbySettings;
