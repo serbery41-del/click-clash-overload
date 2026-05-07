@@ -189,11 +189,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
   sabotageCooldowns: {}, secretUnlocked: false,
   isHost: false, cursorEnabled: false, foxyActive: false,
   debugMsgCount: 0,
+  activeChaos: null, chaosEndsAt: 0, goldenFreddyActive: false,
+  cheatLockedUntil: 0, recentClickTimes: [],
 
   setPhase: (p) => set({ phase: p }),
   setDeviceMode: (m) => set({ deviceMode: m, phase: 'menu' }),
   setPlayerName: (n) => set({ playerName: n }),
   setSkin: (s) => set({ selectedSkin: s }),
+  setTeam: (t) => set(st => ({ players: st.players.map(p => p.id === st.myId ? { ...p, team: t } : p) })),
   unlockSecret: () => set({ secretUnlocked: true }),
   setCursorEnabled: (e) => set({ cursorEnabled: e }),
 
