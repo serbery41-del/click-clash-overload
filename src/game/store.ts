@@ -397,6 +397,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
         set(s => ({ players: s.players.map(p => p.id === leader.id ? { ...p, total: p.total * 0.95 } : p) }));
       }
     }
+    if (ev.id === 'meteor') {
+      set(s => ({ players: s.players.map(p => p.id === s.myId ? { ...p, total: p.total * 0.9 } : p) }));
+    }
+    if (ev.id === 'bonusRain') {
+      set(s => ({ players: s.players.map(p => p.id === s.myId ? { ...p, total: p.total * 1.15 } : p) }));
+    }
     if (st.isHost) mp.send('chaos', { id: ev.id });
   },
 
