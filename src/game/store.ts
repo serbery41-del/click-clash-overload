@@ -207,7 +207,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   players: [], myId: mp.myId(), feed: [],
   timeRemaining: 0, timeElapsed: 0, winnerId: null,
   playerName: '', selectedSkin: 'classic' as SkinId,
-  sabotageCooldowns: {}, secretUnlocked: false,
+  sabotageCooldowns: {}, secretUnlocked: false, unlockedSkins: [],
   isHost: false, cursorEnabled: false, foxyActive: false,
   debugMsgCount: 0,
   activeChaos: null, chaosEndsAt: 0, goldenFreddyActive: false,
