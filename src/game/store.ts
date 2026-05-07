@@ -202,7 +202,7 @@ const defaultSettings: LobbySettings = {
   smokeDuration: 5, freezeDuration: 5, stunDuration: 3, taxPercent: 10, inflationDuration: 8,
   costGrowthRate: 100, startingClickPower: 1,
   showLeaderboard: true, showFeed: true,
-  teamsEnabled: false, chaosEventsEnabled: true, chaosInterval: 30,
+  teamsEnabled: false, chaosEventsEnabled: false, chaosInterval: 30,
   antiCheatEnabled: true, antiCheatCpsThreshold: 76, antiCheatFreezeSeconds: 35,
 };
 
