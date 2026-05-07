@@ -5,7 +5,7 @@ export type Difficulty = 'sprint' | 'marathon' | 'endurance' | 'custom';
 export type DeviceMode = 'phone' | 'pc';
 export type GamePhase = 'deviceSelect' | 'menu' | 'skins' | 'joinRoom' | 'lobby' | 'waiting' | 'playing' | 'finished';
 
-export type SkinId = 'classic' | 'mint' | 'retro' | 'neon' | 'tux';
+export type SkinId = 'classic' | 'mint' | 'retro' | 'neon' | 'tux' | 'win11';
 
 export interface Skin {
   id: SkinId;

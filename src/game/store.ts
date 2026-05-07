@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { GamePhase, DeviceMode, LobbySettings, PlayerState, FeedEntry, SkinId } from './types';
-import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream, CHAOS_EVENTS, ChaosEventId } from './gameData';
+import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream, CHAOS_EVENTS, ChaosEventId, playClickSfx, playPurchaseSfx, playSabotageSfx, playChaosSfx, playGoldenFreddySfx, playWinSfx } from './gameData';
 import * as mp from './multiplayer';
 
 let syncTimer: any = null;
@@ -299,9 +299,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const np = [...st.players];
     np[idx] = { ...p, total: p.total + v, totalClicks: p.totalClicks + 1, lastClickTime: now };
     set({ players: np });
+    if ((p.totalClicks % 3) === 0) playClickSfx();
     if (st.settings.goalType === 'firstToValue' && np[idx].total >= st.settings.targetValue) {
       set({ winnerId: st.myId, phase: 'finished' });
       get().addFeed(np[idx].name + ' reached the goal!', 'system');
+      playWinSfx();
     }
   },
 
@@ -326,6 +328,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const list = [...st.players]; list[idx] = np;
     set({ players: list });
     get().addFeed(p.name + ' bought ' + item.name, 'purchase');
+    playPurchaseSfx();
   },
 
   useSabotage: (sabId, targetId) => {
@@ -346,6 +349,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     list[idx] = { ...me, total: me.total - cost, sabotagesDealt: me.sabotagesDealt + 1 };
     set({ players: list, sabotageCooldowns: { ...st.sabotageCooldowns, [sabId]: Date.now() + sab.cooldown * 1000 } });
     get().addFeed(me.name + ' used ' + sab.name + '!', 'sabotage');
+    playSabotageSfx();
     mp.send('sab', { sabId, targetId, fromName: me.name });
   },
 
@@ -366,8 +370,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().addFeed('CHAOS: ' + ev.name + ' — ' + ev.message, 'system');
     if (ev.id === 'goldenFreddy') {
       set({ goldenFreddyActive: true });
-      try { playFoxyScream(); } catch (_) {}
+      try { playGoldenFreddySfx(); } catch (_) {}
       setTimeout(() => set({ goldenFreddyActive: false }), ev.duration * 1000);
+    } else {
+      try { playChaosSfx(); } catch (_) {}
     }
     if (ev.id === 'taxStorm') {
       const sorted = [...st.players].sort((a, b) => b.total - a.total);
@@ -414,11 +420,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const sorted = [...list].sort((a, b) => b.total - a.total);
       set({ winnerId: sorted[0].id, phase: 'finished' });
       get().addFeed(sorted[0].name + ' wins!', 'system');
+      playWinSfx();
       return;
     }
     if (st.settings.goalType === 'firstToValue') {
       const w = list.find(p => p.total >= st.settings.targetValue);
-      if (w) { set({ winnerId: w.id, phase: 'finished' }); get().addFeed(w.name + ' reached the goal!', 'system'); }
+      if (w) { set({ winnerId: w.id, phase: 'finished' }); get().addFeed(w.name + ' reached the goal!', 'system'); playWinSfx(); }
     }
   },
 

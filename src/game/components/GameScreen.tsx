@@ -147,25 +147,40 @@ export default function GameScreen() {
         </div>
       )}
 
-      {/* GOLDEN FREDDY chaos overlay */}
+      {/* GOLDEN FREDDY chaos overlay — slow, mysterious */}
       {goldenFreddyActive && (
-        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center" style={{ animation: 'foxyShake 0.08s infinite' }}>
-          <svg width="500" height="500" viewBox="0 0 100 100" className="drop-shadow-[0_0_60px_rgba(255,215,0,0.9)]">
-            <ellipse cx="50" cy="48" rx="36" ry="32" fill="#DAA520"/>
-            <ellipse cx="50" cy="60" rx="20" ry="13" fill="#B8860B"/>
-            <ellipse cx="34" cy="42" rx="11" ry="13" fill="#000"/>
-            <ellipse cx="66" cy="42" rx="11" ry="13" fill="#000"/>
-            <circle cx="34" cy="42" r="3" fill="#fff"/>
-            <circle cx="66" cy="42" r="3" fill="#fff"/>
-            <path d="M30 65 Q50 85 70 65 Z" fill="#000"/>
-            <path d="M34 65 L37 75 L40 65 M44 65 L47 78 L50 65 M54 65 L57 78 L60 65 M60 65 L63 75 L66 65" stroke="#fff" strokeWidth="1.5" fill="white"/>
-            <polygon points="18,28 26,8 36,28" fill="#DAA520"/>
-            <polygon points="82,28 74,8 64,28" fill="#DAA520"/>
-            <rect x="46" y="20" width="8" height="6" fill="#000"/>
-            <circle cx="50" cy="23" r="1.5" fill="#FFD700"/>
-          </svg>
-          <div className="absolute bottom-20 text-yellow-400 text-5xl font-black tracking-widest" style={{ textShadow: '0 0 30px gold' }}>
-            IT'S ME.
+        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center" style={{ animation: 'gfFade 4s ease-in-out forwards' }}>
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(40,30,0,0.6) 0%, #000 70%)' }} />
+          <div className="relative" style={{ animation: 'gfFlicker 0.6s steps(2) infinite' }}>
+            <svg width="520" height="520" viewBox="0 0 100 100">
+              {/* Body / head silhouette */}
+              <ellipse cx="50" cy="50" rx="38" ry="34" fill="#1a1100"/>
+              <ellipse cx="50" cy="48" rx="34" ry="30" fill="#2b1d00"/>
+              <ellipse cx="50" cy="62" rx="20" ry="14" fill="#1a1100"/>
+              {/* Ears */}
+              <polygon points="16,28 24,6 36,28" fill="#1a1100"/>
+              <polygon points="84,28 76,6 64,28" fill="#1a1100"/>
+              {/* Eye sockets - black void */}
+              <ellipse cx="34" cy="44" rx="11" ry="13" fill="#000"/>
+              <ellipse cx="66" cy="44" rx="11" ry="13" fill="#000"/>
+              {/* Glowing pinprick eyes */}
+              <circle cx="34" cy="44" r="1.6" fill="#fff" style={{ filter: 'drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff)' }}/>
+              <circle cx="66" cy="44" r="1.6" fill="#fff" style={{ filter: 'drop-shadow(0 0 8px #fff) drop-shadow(0 0 16px #fff)' }}/>
+              {/* Mouth - dark agape */}
+              <path d="M30 62 Q50 78 70 62 Q60 70 50 70 Q40 70 30 62 Z" fill="#000"/>
+              <path d="M34 64 L37 72 L40 64 M44 64 L47 74 L50 64 M54 64 L57 74 L60 64 M60 64 L63 72 L66 64" stroke="#d4a017" strokeWidth="0.8" fill="none" opacity="0.6"/>
+              {/* Hat */}
+              <rect x="42" y="18" width="16" height="3" fill="#000"/>
+              <rect x="46" y="12" width="8" height="6" fill="#000"/>
+              <circle cx="50" cy="13" r="1.2" fill="#d4a017"/>
+              {/* Bowtie */}
+              <polygon points="42,72 46,68 46,76" fill="#000"/>
+              <polygon points="58,72 54,68 54,76" fill="#000"/>
+              <rect x="48" y="69" width="4" height="6" fill="#000"/>
+            </svg>
+          </div>
+          <div className="absolute bottom-20 text-yellow-100/40 text-2xl font-serif italic tracking-[0.3em]" style={{ textShadow: '0 0 30px rgba(212,160,23,0.6)', animation: 'gfTextFade 4s ease-in-out forwards' }}>
+            it's me
           </div>
         </div>
       )}
@@ -381,6 +396,26 @@ export default function GameScreen() {
           25% { transform: translate(-10px, 5px) rotate(-5deg); }
           50% { transform: translate(10px, -5px) rotate(5deg); }
           75% { transform: translate(-5px, 10px) rotate(-3deg); }
+        }
+        @keyframes gfFade {
+          0% { opacity: 0; }
+          15% { opacity: 0.4; }
+          25% { opacity: 0.2; }
+          40% { opacity: 0.85; }
+          85% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes gfFlicker {
+          0%, 100% { opacity: 1; filter: brightness(1); }
+          47% { opacity: 1; filter: brightness(1); }
+          50% { opacity: 0.3; filter: brightness(0.4) hue-rotate(20deg); }
+          53% { opacity: 1; filter: brightness(1.2); }
+        }
+        @keyframes gfTextFade {
+          0%, 30% { opacity: 0; }
+          50% { opacity: 0.4; }
+          75% { opacity: 0.8; }
+          100% { opacity: 0; }
         }
       `}</style>
     </div>
