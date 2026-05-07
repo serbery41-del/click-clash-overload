@@ -1,5 +1,6 @@
 export type GoalType = 'firstToValue' | 'timedSprint';
 export type StakeMode = 'friendly' | 'chaos';
+export type TeamId = 'purple' | 'pink' | 'green' | 'orange' | 'none';
 export type Difficulty = 'sprint' | 'marathon' | 'endurance' | 'custom';
 export type DeviceMode = 'phone' | 'pc';
 export type GamePhase = 'deviceSelect' | 'menu' | 'skins' | 'joinRoom' | 'lobby' | 'waiting' | 'playing' | 'finished';
