@@ -147,6 +147,50 @@ export default function GameScreen() {
         </div>
       )}
 
+      {/* GOLDEN FREDDY chaos overlay */}
+      {goldenFreddyActive && (
+        <div className="fixed inset-0 z-[9998] bg-black flex items-center justify-center" style={{ animation: 'foxyShake 0.08s infinite' }}>
+          <svg width="500" height="500" viewBox="0 0 100 100" className="drop-shadow-[0_0_60px_rgba(255,215,0,0.9)]">
+            <ellipse cx="50" cy="48" rx="36" ry="32" fill="#DAA520"/>
+            <ellipse cx="50" cy="60" rx="20" ry="13" fill="#B8860B"/>
+            <ellipse cx="34" cy="42" rx="11" ry="13" fill="#000"/>
+            <ellipse cx="66" cy="42" rx="11" ry="13" fill="#000"/>
+            <circle cx="34" cy="42" r="3" fill="#fff"/>
+            <circle cx="66" cy="42" r="3" fill="#fff"/>
+            <path d="M30 65 Q50 85 70 65 Z" fill="#000"/>
+            <path d="M34 65 L37 75 L40 65 M44 65 L47 78 L50 65 M54 65 L57 78 L60 65 M60 65 L63 75 L66 65" stroke="#fff" strokeWidth="1.5" fill="white"/>
+            <polygon points="18,28 26,8 36,28" fill="#DAA520"/>
+            <polygon points="82,28 74,8 64,28" fill="#DAA520"/>
+            <rect x="46" y="20" width="8" height="6" fill="#000"/>
+            <circle cx="50" cy="23" r="1.5" fill="#FFD700"/>
+          </svg>
+          <div className="absolute bottom-20 text-yellow-400 text-5xl font-black tracking-widest" style={{ textShadow: '0 0 30px gold' }}>
+            IT'S ME.
+          </div>
+        </div>
+      )}
+
+      {/* CHAOS event banner */}
+      {activeChaos && chaosEndsAt > Date.now() && !goldenFreddyActive && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[80] bg-gradient-to-r from-yellow-500/90 to-red-500/90 px-6 py-2 rounded-full border-2 border-yellow-300 font-black text-black uppercase tracking-wider text-sm animate-pulse">
+          ⚡ {activeChaos === 'doubleClick' ? 'DOUBLE CLICK' : activeChaos === 'priceCrash' ? 'PRICE CRASH -30%' : activeChaos === 'autoBoost' ? 'AUTO OVERDRIVE' : activeChaos === 'frenzy' ? 'CLICK FRENZY' : activeChaos === 'blackout' ? 'BLACKOUT' : activeChaos === 'taxStorm' ? 'TAX STORM' : 'CHAOS'}
+        </div>
+      )}
+
+      {/* BLACKOUT chaos overlay */}
+      {activeChaos === 'blackout' && chaosEndsAt > Date.now() && (
+        <div className="fixed inset-0 z-[70] bg-black/95 pointer-events-none" />
+      )}
+
+      {/* ANTI-CHEAT LOCK overlay */}
+      {cheatLockedUntil > Date.now() && (
+        <div className="fixed inset-0 z-[90] bg-red-900/80 backdrop-blur flex flex-col items-center justify-center pointer-events-none">
+          <div className="text-red-300 text-3xl font-black mb-2">⚠ ANTI-CHEAT TRIGGERED ⚠</div>
+          <div className="text-white text-xl font-mono">Frozen for {Math.ceil((cheatLockedUntil - Date.now()) / 1000)}s</div>
+          <div className="text-red-200 text-sm mt-3">Clicking faster than {settings.antiCheatCpsThreshold} CPS is not allowed</div>
+        </div>
+      )}
+
       {/* Room Code - Top Right */}
       <div className="absolute top-3 right-3 z-50 bg-black/80 border border-[#a855f7]/40 rounded-lg px-3 py-1.5 backdrop-blur-sm">
         <div className="text-[8px] text-[#a855f7] uppercase tracking-wider">Room</div>
