@@ -100,7 +100,8 @@ export default function LobbyScreen() {
               <span className="text-white/50">Custom Target</span>
               <span className="text-[#ff0080] font-mono font-bold text-lg">{formatNumber(settings.targetValue)}</span>
             </div>
-            <input type="range" min={5} max={18} step={0.5} value={Math.log10(settings.targetValue)} onChange={e => updateSettings({ targetValue: Math.pow(10, Number(e.target.value)), difficulty: 'custom' as Difficulty })} className="w-full accent-[#ff0080]" />
+            <input type="range" min={5} max={24} step={0.5} value={Math.log10(settings.targetValue)} onChange={e => updateSettings({ targetValue: Math.pow(10, Number(e.target.value)), difficulty: 'custom' as Difficulty })} className="w-full accent-[#ff0080]" />
+            <div className="text-[10px] text-white/40 text-right">Range: 100K → 1 septillion (1e24)</div>
           </div>
         </Section>
 
