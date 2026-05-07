@@ -209,3 +209,162 @@ export const CHAOS_EVENTS: ChaosEvent[] = [
   { id: 'blackout', name: 'Blackout', message: 'Lights out for 5 seconds!', duration: 5 },
   { id: 'taxStorm', name: 'Tax Storm', message: 'Leader loses 5% of bank!', duration: 3 },
 ];
+
+// ── SOUND EFFECTS LIBRARY ──
+let _audioCtx: AudioContext | null = null;
+function ctx(): AudioContext {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  return _audioCtx;
+}
+
+export function playClickSfx() {
+  try {
+    const a = ctx();
+    const o = a.createOscillator();
+    const g = a.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(880, a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(440, a.currentTime + 0.05);
+    g.gain.setValueAtTime(0.08, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.08);
+    o.connect(g); g.connect(a.destination);
+    o.start(); o.stop(a.currentTime + 0.08);
+  } catch (_) {}
+}
+
+export function playPurchaseSfx() {
+  try {
+    const a = ctx();
+    [523, 659, 784].forEach((f, i) => {
+      const o = a.createOscillator();
+      const g = a.createGain();
+      o.type = 'sine';
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.001, a.currentTime + i * 0.06);
+      g.gain.exponentialRampToValueAtTime(0.12, a.currentTime + i * 0.06 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + i * 0.06 + 0.18);
+      o.connect(g); g.connect(a.destination);
+      o.start(a.currentTime + i * 0.06);
+      o.stop(a.currentTime + i * 0.06 + 0.2);
+    });
+  } catch (_) {}
+}
+
+export function playSabotageSfx() {
+  try {
+    const a = ctx();
+    const o = a.createOscillator();
+    const g = a.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(220, a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(55, a.currentTime + 0.4);
+    g.gain.setValueAtTime(0.15, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.4);
+    o.connect(g); g.connect(a.destination);
+    o.start(); o.stop(a.currentTime + 0.4);
+  } catch (_) {}
+}
+
+export function playChaosSfx() {
+  try {
+    const a = ctx();
+    [200, 300, 500, 800].forEach((f, i) => {
+      const o = a.createOscillator();
+      const g = a.createGain();
+      o.type = 'square';
+      o.frequency.setValueAtTime(f, a.currentTime + i * 0.04);
+      g.gain.setValueAtTime(0.08, a.currentTime + i * 0.04);
+      g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + i * 0.04 + 0.12);
+      o.connect(g); g.connect(a.destination);
+      o.start(a.currentTime + i * 0.04);
+      o.stop(a.currentTime + i * 0.04 + 0.13);
+    });
+  } catch (_) {}
+}
+
+export function playWinSfx() {
+  try {
+    const a = ctx();
+    [523, 659, 784, 1047].forEach((f, i) => {
+      const o = a.createOscillator();
+      const g = a.createGain();
+      o.type = 'triangle';
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.001, a.currentTime + i * 0.12);
+      g.gain.exponentialRampToValueAtTime(0.18, a.currentTime + i * 0.12 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + i * 0.12 + 0.4);
+      o.connect(g); g.connect(a.destination);
+      o.start(a.currentTime + i * 0.12);
+      o.stop(a.currentTime + i * 0.12 + 0.42);
+    });
+  } catch (_) {}
+}
+
+// Mysterious Golden Freddy — low rumble + dissonant drone + whispered "it's me"
+export function playGoldenFreddySfx() {
+  try {
+    const a = ctx();
+    // Deep sub rumble
+    const sub = a.createOscillator();
+    const subG = a.createGain();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(45, a.currentTime);
+    sub.frequency.linearRampToValueAtTime(30, a.currentTime + 4);
+    subG.gain.setValueAtTime(0.001, a.currentTime);
+    subG.gain.linearRampToValueAtTime(0.35, a.currentTime + 1.5);
+    subG.gain.linearRampToValueAtTime(0.0, a.currentTime + 4);
+    sub.connect(subG); subG.connect(a.destination);
+    sub.start(); sub.stop(a.currentTime + 4);
+
+    // Dissonant detuned drones
+    [110, 116.5, 174].forEach((f, i) => {
+      const o = a.createOscillator();
+      const g = a.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f, a.currentTime);
+      o.frequency.linearRampToValueAtTime(f * 0.5, a.currentTime + 4);
+      g.gain.setValueAtTime(0.001, a.currentTime + i * 0.2);
+      g.gain.linearRampToValueAtTime(0.05, a.currentTime + 1 + i * 0.2);
+      g.gain.linearRampToValueAtTime(0.0, a.currentTime + 4);
+      // gentle filter via biquad
+      const bq = a.createBiquadFilter();
+      bq.type = 'lowpass';
+      bq.frequency.value = 600;
+      o.connect(bq); bq.connect(g); g.connect(a.destination);
+      o.start(); o.stop(a.currentTime + 4);
+    });
+
+    // Whisper noise
+    const buf = a.createBuffer(1, a.sampleRate * 3.5, a.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      const env = Math.sin((i / data.length) * Math.PI);
+      data[i] = (Math.random() * 2 - 1) * env * 0.3;
+    }
+    const noise = a.createBufferSource();
+    noise.buffer = buf;
+    const nFilt = a.createBiquadFilter();
+    nFilt.type = 'bandpass';
+    nFilt.frequency.value = 1500;
+    nFilt.Q.value = 0.7;
+    const nGain = a.createGain();
+    nGain.gain.value = 0.18;
+    noise.connect(nFilt); nFilt.connect(nGain); nGain.connect(a.destination);
+    noise.start(a.currentTime + 0.5);
+
+    // Single creepy bell hit at end
+    setTimeout(() => {
+      try {
+        const a2 = ctx();
+        const o = a2.createOscillator();
+        const g = a2.createGain();
+        o.type = 'sine';
+        o.frequency.value = 196;
+        g.gain.setValueAtTime(0.4, a2.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, a2.currentTime + 1.5);
+        o.connect(g); g.connect(a2.destination);
+        o.start(); o.stop(a2.currentTime + 1.5);
+      } catch (_) {}
+    }, 2800);
+  } catch (_) {}
+}
