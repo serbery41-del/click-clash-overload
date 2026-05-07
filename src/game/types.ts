@@ -38,6 +38,12 @@ export interface LobbySettings {
   startingClickPower: number;
   showLeaderboard: boolean;
   showFeed: boolean;
+  teamsEnabled: boolean;
+  chaosEventsEnabled: boolean;
+  chaosInterval: number;
+  antiCheatEnabled: boolean;
+  antiCheatCpsThreshold: number;
+  antiCheatFreezeSeconds: number;
 }
 
 export interface ShopItem {
