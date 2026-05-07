@@ -146,13 +146,22 @@ interface GameStore {
   sabotageCooldowns: Record<string, number>;
   secretUnlocked: boolean; isHost: boolean; cursorEnabled: boolean; foxyActive: boolean;
   debugMsgCount: number;
+  // chaos
+  activeChaos: ChaosEventId | null;
+  chaosEndsAt: number;
+  goldenFreddyActive: boolean;
+  // anti-cheat
+  cheatLockedUntil: number;
+  recentClickTimes: number[];
   setPhase: (p: GamePhase) => void; setDeviceMode: (m: DeviceMode) => void;
   updateSettings: (p: Partial<LobbySettings>) => void;
   setPlayerName: (n: string) => void; setSkin: (s: SkinId) => void;
+  setTeam: (t: any) => void;
   unlockSecret: () => void; setCursorEnabled: (e: boolean) => void;
   createRoom: () => void; joinRoom: (code: string) => void; startGame: () => void;
   handleClick: () => void; buyItem: (id: string) => void;
   useSabotage: (sabId: string, targetId: string) => void;
+  triggerChaos: (id?: ChaosEventId) => void;
   tick: (delta: number) => void;
   addFeed: (msg: string, t: FeedEntry['type']) => void;
   resetGame: () => void; triggerFoxy: () => void;
