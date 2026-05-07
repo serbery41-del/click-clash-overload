@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { GamePhase, DeviceMode, LobbySettings, PlayerState, FeedEntry, SkinId } from './types';
-import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream, CHAOS_EVENTS, ChaosEventId } from './gameData';
+import { SHOP_ITEMS, SABOTAGE_ABILITIES, getItemCost, DIFFICULTY_PRESETS, generateRoomCode, getSabotageCost, getSabotageDuration, playFoxyScream, CHAOS_EVENTS, ChaosEventId, playClickSfx, playPurchaseSfx, playSabotageSfx, playChaosSfx, playGoldenFreddySfx, playWinSfx } from './gameData';
 import * as mp from './multiplayer';
 
 let syncTimer: any = null;
