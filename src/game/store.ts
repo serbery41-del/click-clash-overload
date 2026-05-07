@@ -218,7 +218,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setPlayerName: (n) => set({ playerName: n }),
   setSkin: (s) => set({ selectedSkin: s }),
   setTeam: (t) => set(st => ({ players: st.players.map(p => p.id === st.myId ? { ...p, team: t } : p) })),
-  unlockSecret: () => set({ secretUnlocked: true }),
+  unlockSecret: (skin) => set(st => ({
+    secretUnlocked: true,
+    unlockedSkins: skin && !st.unlockedSkins.includes(skin) ? [...st.unlockedSkins, skin] : st.unlockedSkins,
+  })),
   setCursorEnabled: (e) => set({ cursorEnabled: e }),
 
   updateSettings: (partial) => set(st => {
