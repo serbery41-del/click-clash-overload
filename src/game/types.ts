@@ -86,6 +86,8 @@ export interface PlayerState {
   color: string;
   skinId: SkinId;
   ready: boolean;
+  team: TeamId;
+  cheatLockedUntil?: number;
 }
 
 export interface ActiveSabotage {
