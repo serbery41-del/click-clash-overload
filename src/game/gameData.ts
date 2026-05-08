@@ -100,9 +100,9 @@ export const SABOTAGE_ABILITIES: SabotageAbility[] = [
 ].sort((a, b) => a.baseCost - b.baseCost);
 
 export const DIFFICULTY_PRESETS: Record<string, Partial<LobbySettings>> = {
-  sprint: { targetValue: 1_000_000, timeLimit: 180 },
-  marathon: { targetValue: 1_000_000_000, timeLimit: 600 },
-  endurance: { targetValue: 1_000_000_000_000_000, timeLimit: 2700 },
+  sprint: { targetValue: 250_000, timeLimit: 180 },
+  marathon: { targetValue: 250_000_000, timeLimit: 600 },
+  endurance: { targetValue: 250_000_000_000_000, timeLimit: 2700 },
 };
 
 export const PLAYER_COLORS = [
