@@ -194,7 +194,7 @@ interface GameStore {
 }
 
 const defaultSettings: LobbySettings = {
-  goalType: 'firstToValue', targetValue: 1_000_000, timeLimit: 180,
+  goalType: 'firstToValue', targetValue: 250_000, timeLimit: 180,
   stakeMode: 'chaos', difficulty: 'sprint',
   seedBonus: false, seedBonusAmount: 100,
   catchUpMechanic: true, catchUpPercent: 10,
@@ -202,8 +202,8 @@ const defaultSettings: LobbySettings = {
   smokeDuration: 5, freezeDuration: 5, stunDuration: 3, taxPercent: 10, inflationDuration: 8,
   costGrowthRate: 100, startingClickPower: 1,
   showLeaderboard: true, showFeed: true,
-  teamsEnabled: false, chaosEventsEnabled: false, chaosInterval: 30,
-  antiCheatEnabled: true, antiCheatCpsThreshold: 76, antiCheatFreezeSeconds: 35,
+  teamsEnabled: false, chaosEventsEnabled: true, chaosInterval: 18,
+  antiCheatEnabled: true, antiCheatCpsThreshold: 130, antiCheatFreezeSeconds: 15,
 };
 
 export const useGameStore = create<GameStore>((set, get) => ({
