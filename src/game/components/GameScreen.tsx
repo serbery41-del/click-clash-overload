@@ -65,14 +65,18 @@ export default function GameScreen() {
   useEffect(() => {
     if (deviceMode !== 'pc') return;
     const handler = (e: KeyboardEvent) => {
+      if (e.repeat) return;
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement | null)?.isContentEditable) return;
       if (e.code === 'Space' || e.code === 'Enter') {
         e.preventDefault();
         doClick();
+        return;
       }
       if (e.key === '1') setShopCat('click');
-      if (e.key === '2') setShopCat('auto');
-      if (e.key === '3') setShopCat('invest');
-      if (e.key === '4') setShopCat('special');
+      else if (e.key === '2') setShopCat('auto');
+      else if (e.key === '3') setShopCat('invest');
+      else if (e.key === '4') setShopCat('special');
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
