@@ -34,6 +34,8 @@ export default function MenuScreen() {
           <input
             type="text"
             value={playerName}
+            onKeyDown={e => e.stopPropagation()}
+            onKeyUp={e => e.stopPropagation()}
             onChange={e => setPlayerName(e.target.value.slice(0, 16))}
             placeholder="Enter your name"
             maxLength={16}

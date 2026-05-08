@@ -8,6 +8,7 @@ export default function JoinRoom() {
   const [error, setError] = useState('');
 
   const handleJoin = () => {
+    if (joining) return;
     if (code.length < 4) {
       setError('Enter a valid room code');
       return;
@@ -37,7 +38,12 @@ export default function JoinRoom() {
           <input
             type="text"
             value={code}
-            onChange={e => { setCode(e.target.value.toUpperCase().slice(0, 6)); setError(''); }}
+            onKeyDown={e => {
+              e.stopPropagation();
+              if (e.key === 'Enter') handleJoin();
+            }}
+            onKeyUp={e => e.stopPropagation()}
+            onChange={e => { setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)); setError(''); }}
             placeholder="XXXXXX"
             maxLength={6}
             className="w-full bg-black/50 border-2 border-[#ff0080]/30 rounded-xl px-4 py-5 text-white text-center text-3xl font-mono font-black tracking-[0.4em] placeholder:text-white/20 focus:outline-none focus:border-[#ff0080] focus:shadow-[0_0_30px_rgba(255,0,128,0.3)] transition-all"
