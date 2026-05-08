@@ -17,5 +17,5 @@ RUN npm run build
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Serve static files from dist
+CMD ["npx", "serve", "-s", "dist", "-l", "3000"]
