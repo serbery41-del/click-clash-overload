@@ -54,7 +54,7 @@ export default function WaitingScreen() {
         <div className="text-[9px] text-white/20 font-mono space-y-0.5">
           <div>Your ID: {myId}</div>
           <div>Channel: cc{settings.roomCode}</div>
-          <div>Messages received: {msgCount}</div>
+          <div>Messages received: {mp.getMsgCount()}</div>
           <div>Connected via Lovable Cloud realtime</div>
         </div>
       </div>
