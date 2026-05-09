@@ -217,7 +217,7 @@ export default function LobbyScreen() {
           <div>Channel: cc{settings.roomCode}</div>
           <div>Messages: {mp.getMsgCount()}</div>
           <div>Players: {players.map(p => p.name + '(' + p.id.slice(0,4) + ')').join(', ')}</div>
-          <div>Share this page URL + room code with another tab to connect</div>
+          <div>Share the room code with friends on any device to connect</div>
         </div>
       </div>
 

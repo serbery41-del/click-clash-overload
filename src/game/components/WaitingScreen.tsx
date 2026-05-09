@@ -55,7 +55,7 @@ export default function WaitingScreen() {
           <div>Your ID: {myId}</div>
           <div>Channel: cc{settings.roomCode}</div>
           <div>Messages received: {mp.getMsgCount()}</div>
-          <div>Both tabs must be on the same URL for sync to work</div>
+          <div>Connected via Lovable Cloud realtime</div>
         </div>
       </div>
     </div>
